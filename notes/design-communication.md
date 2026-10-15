@@ -187,3 +187,25 @@ Before:
 After:
 
 ![After: compact row preview](images/08-peek.jpg)
+
+## 9. Add the Peek identifier
+
+**Original wording (excerpt)**
+
+> Just add that identifier at the top before the title. Gray out a little bit.
+
+**Precise version**
+
+> Add the item identifier above the Peek title in smaller, muted gray text. Keep the existing layout and behavior.
+
+**Result**
+
+Added the identifier above the title and to keyboard announcements. Visually verified placement and contrast; build and lint pass. Commit: `style(triage): show identifier above peek title`.
+
+Before:
+
+![Before: Peek without identifier](images/08-peek.jpg)
+
+After:
+
+![After: muted identifier above title](images/09-peek-identifier.jpg)

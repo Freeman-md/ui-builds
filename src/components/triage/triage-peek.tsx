@@ -23,6 +23,7 @@ export function TriagePeek({ item, popupId, descriptionId, announce }: TriagePee
       >
         {item && (
           <>
+            <span className="text-xs text-muted-foreground">{item.id}</span>
             <PopoverTitle className="line-clamp-2 text-sm/5">{item.title}</PopoverTitle>
             <PopoverDescription id={descriptionId} className="line-clamp-3 text-sm/6">
               {item.brief}
@@ -32,7 +33,7 @@ export function TriagePeek({ item, popupId, descriptionId, announce }: TriagePee
         )}
       </PopoverContent>
       <span role="status" className="sr-only">
-        {announce && item ? `${item.title}. ${item.brief} Received ${item.age}.` : ''}
+        {announce && item ? `${item.id}. ${item.title}. ${item.brief} Received ${item.age}.` : ''}
       </span>
     </>
   )
