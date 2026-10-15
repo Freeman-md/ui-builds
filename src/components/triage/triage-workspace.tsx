@@ -1,4 +1,5 @@
 import type { KeyboardEvent } from 'react'
+import { AnimatePresence } from 'motion/react'
 import { TeamHeader } from '@/components/triage/team-header'
 import { TriageDetails } from '@/components/triage/triage-details'
 import { TriageInbox } from '@/components/triage/triage-inbox'
@@ -10,7 +11,7 @@ import { useTriageSelection } from '@/hooks/use-triage-selection'
 
 export function TriageWorkspace() {
   const { teams, selectedTeam, selectTeam, createTeam, setTeamStarred } = useTeams()
-  const { itemId, isOpen, openDetails, closeDetails, restoreListPosition } = useTriageSelection(selectedTeam)
+  const { itemId, isOpen, animateSelection, openDetails, closeDetails, restoreListPosition } = useTriageSelection(selectedTeam)
   const selectedItem = sampleGigs.find((item) => item.id === itemId)
 
   function handleTeamChange(value: string | number | null) {
@@ -40,36 +41,48 @@ export function TriageWorkspace() {
     >
       <Tabs value={selectedTeam} onValueChange={handleTeamChange} className="min-w-0 gap-0">
         <TeamHeader teams={teams} selectedTeam={selectedTeam} onCreateTeam={handleCreateTeam} />
-        {teams.map((team) => (
-          <TabsContent
-            key={team.id}
-            value={team.id}
-            onTransitionEnd={(event) => {
-              if (event.target === event.currentTarget && event.propertyName === 'height') {
-                restoreListPosition()
-              }
-            }}
-            className="triage-panel m-0 flex-none rounded-b-xl focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-ring"
-          >
-            <div className="triage-workspace" data-open={isOpen}>
-              <div className="triage-list-pane">
-                <TriageInbox
-                  teamName={team.name}
-                  items={team.id === 'engineering' ? sampleGigs : []}
-                  starred={team.starred}
-                  selectedItemId={isOpen ? itemId : null}
-                  onSelectItem={openDetails}
-                  onStarredChange={(starred) => setTeamStarred(team.id, starred)}
-                />
+        <div className="triage-panels">
+          {teams.map((team) => (
+            <TabsContent
+              key={team.id}
+              value={team.id}
+              aria-hidden={team.id !== selectedTeam || undefined}
+              onTransitionEnd={(event) => {
+                if (event.target === event.currentTarget && event.propertyName === 'height') {
+                  restoreListPosition()
+                }
+              }}
+              className="triage-panel m-0 flex-none rounded-b-xl focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-ring"
+            >
+              <div className="triage-workspace" data-open={isOpen}>
+                <div className="triage-list-pane">
+                  <TriageInbox
+                    teamName={team.name}
+                    detailPaneId={`${team.id}-triage-details`}
+                    items={team.id === 'engineering' ? sampleGigs : []}
+                    starred={team.starred}
+                    selectedItemId={isOpen ? itemId : null}
+                    onSelectItem={openDetails}
+                    onStarredChange={(starred) => setTeamStarred(team.id, starred)}
+                  />
+                </div>
+                <div id={`${team.id}-triage-details`} className="triage-detail-pane" aria-hidden={!isOpen} inert={!isOpen}>
+                  <AnimatePresence initial={false} mode="sync">
+                    {selectedItem && (
+                      <TriageDetails
+                        key={selectedItem.id}
+                        item={selectedItem}
+                        open={isOpen}
+                        animate={animateSelection}
+                        onClose={() => closeDetails()}
+                      />
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
-              <div id="triage-details" className="triage-detail-pane" aria-hidden={!isOpen} inert={!isOpen}>
-                {selectedItem && (
-                  <TriageDetails key={selectedItem.id} item={selectedItem} open={isOpen} onClose={() => closeDetails()} />
-                )}
-              </div>
-            </div>
-          </TabsContent>
-        ))}
+            </TabsContent>
+          ))}
+        </div>
       </Tabs>
     </Card>
   )

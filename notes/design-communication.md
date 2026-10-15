@@ -209,3 +209,27 @@ Before:
 After:
 
 ![After: muted identifier above title](images/09-peek-identifier.jpg)
+
+## 10. Coordinate selection and team transitions
+
+**Original wording (excerpts)**
+
+> I think the first aspect of it is, you know, when you expand the details of an item, when you move on to the next one, it just changes it.
+
+> when I create a team, I want the entry of the new, the entry of the tile for the new team created should be seamless, and the removal of the content, or rather the list items for that particular team, should be seamless as well.
+
+**Precise version**
+
+> Add brief, interruptible transitions for detail changes, row selection, new team tabs, and team switching using Motion and CSS. Preserve the expansion. Keep keyboard selection immediate and respect reduced motion. Defer new shortcuts.
+
+**Result**
+
+Details fade with a 4px entrance over 160ms; new tabs settle over 180ms; team panels fade over 150ms. Verified rapid switching, creation, Peek, mobile, and scroll/focus restoration. Reduced-motion paths reviewed, not browser-emulated. Build/lint pass; Vite reports a bundle-size warning. Commit: `feat(triage): coordinate detail and team transitions`.
+
+Before:
+
+![Before: immediate detail replacement](images/10-before-motion.jpg)
+
+After (settled state):
+
+![After: detail view with coordinated transitions](images/10-motion.jpg)

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
 import { ChevronRight, CircleDashed, PanelLeft } from 'lucide-react'
 import { CreateTeamDialog } from '@/components/triage/create-team-dialog'
 import { TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -12,6 +13,8 @@ type TeamHeaderProps = {
 
 export function TeamHeader({ teams, selectedTeam, onCreateTeam }: TeamHeaderProps) {
   const activeTabRef = useRef<HTMLButtonElement>(null)
+  const reducedMotion = useReducedMotion()
+  const tabTransition = { duration: reducedMotion ? 0 : 0.18, ease: [0.23, 1, 0.32, 1] as const }
 
   useEffect(() => {
     activeTabRef.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
@@ -31,6 +34,15 @@ export function TeamHeader({ teams, selectedTeam, onCreateTeam }: TeamHeaderProp
               value={team.id}
               aria-label={`${team.name}, Triage`}
               className="inbox-team-tab"
+              render={
+                <motion.button
+                  layout={reducedMotion ? false : 'position'}
+                  layoutDependency={teams.length}
+                  initial={reducedMotion || team.id === 'engineering' ? false : { opacity: 0, transform: 'translateY(4px)' }}
+                  animate={{ opacity: 1, transform: 'translateY(0px)' }}
+                  transition={tabTransition}
+                />
+              }
             >
               <CircleDashed className="size-4 text-muted-foreground" aria-hidden="true" />
               <span className="min-w-0 max-w-36 truncate" title={team.name}>{team.name}</span>
@@ -40,9 +52,14 @@ export function TeamHeader({ teams, selectedTeam, onCreateTeam }: TeamHeaderProp
           ))}
         </TabsList>
       </div>
-      <div className="flex h-full flex-1 shrink-0 items-center border-b border-white/7 pr-2 pl-1">
+      <motion.div
+        layout={reducedMotion ? false : 'position'}
+        layoutDependency={teams.length}
+        transition={tabTransition}
+        className="flex h-full flex-1 shrink-0 items-center border-b border-white/7 pr-2 pl-1"
+      >
         <CreateTeamDialog teamNames={teams.map((team) => team.name)} onCreate={onCreateTeam} />
-      </div>
+      </motion.div>
     </div>
   )
 }

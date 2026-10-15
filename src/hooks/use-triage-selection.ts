@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 
-type Selection = { teamId: string; itemId: string; open: boolean }
+type Selection = { teamId: string; itemId: string; open: boolean; animate: boolean }
 
 export function useTriageSelection(teamId: string) {
   const [selection, setSelection] = useState<Selection | null>(null)
@@ -9,12 +9,12 @@ export function useTriageSelection(teamId: string) {
   const pendingScrollRestore = useRef(false)
   const currentSelection = selection?.teamId === teamId ? selection : null
 
-  function openDetails(itemId: string, trigger: HTMLButtonElement) {
+  function openDetails(itemId: string, trigger: HTMLButtonElement, animate = true) {
     const list = trigger.closest<HTMLElement>('[role="region"]')
     listPositionRef.current = list ? { element: list, top: list.scrollTop } : null
     pendingScrollRestore.current = false
     triggerRef.current = trigger
-    setSelection({ teamId, itemId, open: true })
+    setSelection({ teamId, itemId, open: true, animate })
   }
 
   function restoreListPosition() {
@@ -42,6 +42,7 @@ export function useTriageSelection(teamId: string) {
   return {
     itemId: currentSelection?.itemId ?? null,
     isOpen: currentSelection?.open ?? false,
+    animateSelection: currentSelection?.animate ?? false,
     openDetails,
     closeDetails,
     restoreListPosition,

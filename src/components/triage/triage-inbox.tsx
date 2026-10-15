@@ -9,15 +9,16 @@ import type { Gig } from '@/data/sample-gigs'
 
 type TriageInboxProps = {
   teamName: string
+  detailPaneId: string
   items: Gig[]
   starred: boolean
   onStarredChange: (starred: boolean) => void
   selectedItemId: string | null
-  onSelectItem: (itemId: string, trigger: HTMLButtonElement) => void
+  onSelectItem: (itemId: string, trigger: HTMLButtonElement, animate?: boolean) => void
 }
 
 export function TriageInbox({
-  teamName, items, starred, onStarredChange, selectedItemId, onSelectItem,
+  teamName, detailPaneId, items, starred, onStarredChange, selectedItemId, onSelectItem,
 }: TriageInboxProps) {
   const peek = useTriagePeek(items, selectedItemId === null, onSelectItem)
 
@@ -96,11 +97,11 @@ export function TriageInbox({
                     onKeyDown={(event) => peek.onRowKeyDown(event, item.id)}
                     onClick={(event) => {
                       event.preventBaseUIHandler()
-                      peek.openDetails(item.id, event.currentTarget)
+                      peek.openDetails(item.id, event.currentTarget, event.detail !== 0)
                     }}
                     aria-label={`View ${item.id}: ${item.title}`}
                     aria-expanded={selectedItemId === item.id || peek.itemId === item.id}
-                    aria-controls={peek.itemId === item.id ? peek.popupId : 'triage-details'}
+                    aria-controls={peek.itemId === item.id ? peek.popupId : detailPaneId}
                     aria-describedby={peek.itemId === item.id ? peek.descriptionId : undefined}
                     data-peeking={peek.itemId === item.id}
                     aria-current={selectedItemId === item.id ? 'true' : undefined}

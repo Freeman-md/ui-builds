@@ -6,7 +6,7 @@ type Preview = { itemId: string; keyboard: boolean }
 export function useTriagePeek(
   items: Gig[],
   enabled: boolean,
-  onSelectItem: (itemId: string, trigger: HTMLButtonElement) => void,
+  onSelectItem: (itemId: string, trigger: HTMLButtonElement, animate?: boolean) => void,
 ) {
   const instanceId = useId()
   const [preview, setPreview] = useState<Preview | null>(null)
@@ -17,11 +17,11 @@ export function useTriagePeek(
 
   const dismiss = useCallback(() => setPreview(null), [])
 
-  const openDetails = useCallback((id: string, trigger: HTMLButtonElement) => {
+  const openDetails = useCallback((id: string, trigger: HTMLButtonElement, animate = true) => {
     dismiss()
     // Returning from full details should restore focus without reopening Peek.
     suppressFocusPreview.current = true
-    onSelectItem(id, trigger)
+    onSelectItem(id, trigger, animate)
   }, [dismiss, onSelectItem])
 
   const navigate = useCallback((key: string, currentId: string | null) => {
@@ -79,7 +79,7 @@ export function useTriagePeek(
         const row = rows.current.get(activeId)
         if (row) {
           event.preventDefault()
-          openDetails(activeId, row)
+          openDetails(activeId, row, false)
         }
       }
     }

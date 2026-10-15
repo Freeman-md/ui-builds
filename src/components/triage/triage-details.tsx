@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
+import { motion, useIsPresent, useReducedMotion } from 'motion/react'
 import { ArrowLeft, Check, Copy, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -8,16 +9,21 @@ import type { Gig } from '@/data/sample-gigs'
 type TriageDetailsProps = {
   item: Gig
   open: boolean
+  animate: boolean
   onClose: () => void
 }
 
-export function TriageDetails({ item, open, onClose }: TriageDetailsProps) {
+export function TriageDetails({ item, open, animate, onClose }: TriageDetailsProps) {
+  const titleId = useId()
+  const isPresent = useIsPresent()
+  const reducedMotion = useReducedMotion()
+  const instant = reducedMotion || !animate
   const titleRef = useRef<HTMLHeadingElement>(null)
   const [copyStatus, setCopyStatus] = useState('')
 
   useEffect(() => {
-    if (open) titleRef.current?.focus({ preventScroll: true })
-  }, [open, item.id])
+    if (open && isPresent) titleRef.current?.focus({ preventScroll: true })
+  }, [open, item.id, isPresent])
 
   async function copyIdentifier() {
     try {
@@ -29,7 +35,16 @@ export function TriageDetails({ item, open, onClose }: TriageDetailsProps) {
   }
 
   return (
-    <section className="triage-details-content" aria-labelledby="triage-detail-title">
+    <motion.section
+      className="triage-details-content"
+      aria-labelledby={titleId}
+      aria-hidden={!isPresent || undefined}
+      inert={!isPresent}
+      initial={instant ? false : { opacity: 0, transform: 'translateY(4px)' }}
+      animate={{ opacity: 1, transform: 'translateY(0px)' }}
+      exit={{ opacity: 0, transform: 'translateY(0px)', transition: { duration: instant ? 0 : 0.06 } }}
+      transition={{ duration: instant ? 0 : 0.12, delay: instant ? 0 : 0.04, ease: [0.23, 1, 0.32, 1] }}
+    >
       <div className="flex h-11 shrink-0 items-center gap-2 border-b border-white/7 px-4">
         <span className="shrink-0 text-xs text-muted-foreground">{item.id}</span>
         <span className="min-w-0 flex-1 truncate text-sm" title={item.title}>{item.title}</span>
@@ -61,7 +76,7 @@ export function TriageDetails({ item, open, onClose }: TriageDetailsProps) {
       >
         <h2
           ref={titleRef}
-          id="triage-detail-title"
+          id={titleId}
           tabIndex={-1}
           className="rounded-sm text-xl/7 font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
@@ -87,6 +102,6 @@ export function TriageDetails({ item, open, onClose }: TriageDetailsProps) {
         <p className="mt-6 text-xs text-muted-foreground">Received {item.age} · Sample opportunity</p>
         <p role="status" className="mt-3 text-sm text-muted-foreground">{copyStatus}</p>
       </div>
-    </section>
+    </motion.section>
   )
 }
