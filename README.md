@@ -11,7 +11,7 @@ npm run dev
 
 `npm run build` checks types and builds the app. `npm run lint` runs the linter.
 
-Current slice: centered container, selected Engineering tab, and an add-team control reserved for the next iteration. The body is intentionally blank.
+Current slice: a centered container with team tabs and a create-team dialog. New teams are selected automatically; each breadcrumb ends in Triage and each body is blank. Teams live in memory and reset on refresh.
 
 ## Notes
 

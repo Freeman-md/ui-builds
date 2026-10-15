@@ -161,6 +161,8 @@ body {
 
 .inbox-team-tab {
   height: 100%;
+  /* Leave room for the 48px sidebar area and 44px add-team control. */
+  max-width: calc(100cqi - 92px);
   gap: 6px;
   padding: 0 12px;
   border: 0;
@@ -169,6 +171,7 @@ body {
   background: transparent;
   color: var(--muted-foreground);
   box-shadow: none;
+  flex: none;
   transition-property: color, background-color;
 }
 
@@ -181,4 +184,9 @@ body {
 .inbox-team-tab:focus-visible {
   outline: none;
   box-shadow: inset 0 0 0 2px var(--ring);
+}
+
+.inbox-team-strip {
+  scrollbar-width: none;
+  box-shadow: inset 0 -1px var(--border);
 }

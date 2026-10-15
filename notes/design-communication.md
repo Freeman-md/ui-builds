@@ -39,3 +39,31 @@ Before:
 After:
 
 ![After: tab joined to the body](images/02-joined-tab.jpg)
+
+## 3. Create a team
+
+**Original wording (excerpts)**
+
+> I think a simple modal would make more sense. You get a simple modal and then just name, enter the name, enter. It creates a new team.
+
+> Triage remains the default breadcrumb item. Keep the body blank, update the notes with this design step, and commit it when you're done.
+
+**Precise version**
+
+> Open a compact “Create team” dialog from the plus button, with a focused, labelled name field. Submit with Enter or Create team, reject blank and duplicate names, then add and select the new team tab. Keep “Triage” in every tab’s breadcrumb and the body blank. Support Cancel, Escape, and focus restoration to the plus button.
+
+**Result**
+
+Accessible creation dialog and selectable team tabs, with validation and overflow handling. Verified Enter/button submission, cancellation, focus trapping/restoration, and narrow-screen layouts. Teams last for the current page session. Commit: `feat(triage): add accessible create-team dialog`.
+
+Before:
+
+![Before: inactive add-team button](images/03-before-create-team.jpg)
+
+Dialog:
+
+![Create team dialog](images/03-create-team-dialog.jpg)
+
+After:
+
+![New Design team selected with the Triage breadcrumb and blank body](images/03-team-created.jpg)
