@@ -1,4 +1,4 @@
-import { useEffect, useId, useImperativeHandle, useRef, useState, type Ref } from 'react'
+import { useEffect, useId, useImperativeHandle, useLayoutEffect, useRef, useState, type Ref, type RefObject } from 'react'
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from 'motion/react'
 import { ArrowLeft, Check, Copy, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -18,14 +18,16 @@ type TriageDetailsProps = {
 }
 
 export function TriageDetails({ ref, item, open, direction, focusDetails, onClose }: TriageDetailsProps) {
-  const titleId = `${useId()}-${item.id}`
+  const instanceId = useId()
+  const titleId = `${instanceId}-${item.id}`
+  const headerId = `${instanceId}-header`
   const scrollRef = useRef<HTMLDivElement>(null)
   const [copied, setCopied] = useState({ id: '', message: '' })
   const copyStatus = copied.id === item.id ? copied.message : ''
 
   useEffect(() => {
     if (open) scrollRef.current?.scrollTo({ top: 0 })
-  }, [open, item.id])
+  }, [open])
 
   async function copyIdentifier() {
     try {
@@ -39,10 +41,10 @@ export function TriageDetails({ ref, item, open, direction, focusDetails, onClos
   useImperativeHandle(ref, () => ({ copyIdentifier }))
 
   return (
-    <section className="triage-details-content" aria-labelledby={titleId}>
+    <section className="triage-details-content" aria-labelledby={headerId}>
       <div className="flex h-11 shrink-0 items-center gap-2 border-b border-white/7 px-4">
         <span className="shrink-0 text-xs text-muted-foreground">{item.id}</span>
-        <span className="min-w-0 flex-1 truncate text-sm" title={item.title}>{item.title}</span>
+        <span id={headerId} className="min-w-0 flex-1 truncate text-sm" title={item.title}>{item.title}</span>
         <Tooltip>
           <TooltipTrigger
             render={<Button type="button" variant="ghost" size="icon" aria-label="Copy identifier" aria-keyshortcuts="c" onClick={copyIdentifier} />}
@@ -71,11 +73,9 @@ export function TriageDetails({ ref, item, open, direction, focusDetails, onClos
         tabIndex={0}
         className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-6 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring sm:px-8"
       >
-        <div className="relative grid">
-          <AnimatePresence initial={false} custom={direction} mode="sync">
-            <TriageDetailBody key={item.id} item={item} titleId={titleId} direction={direction} focusTitle={open && focusDetails} />
-          </AnimatePresence>
-        </div>
+        <AnimatePresence initial={false} mode="wait">
+          <TriageDetailBody key={item.id} item={item} titleId={titleId} direction={direction} focusTitle={open && focusDetails} scrollRef={scrollRef} />
+        </AnimatePresence>
         <p role="status" className="mt-3 text-sm text-muted-foreground">{copyStatus}</p>
       </div>
     </section>
@@ -85,15 +85,19 @@ export function TriageDetails({ ref, item, open, direction, focusDetails, onClos
 const slideVariants = {
   enter: (direction: number) => ({ opacity: 0, transform: `translateY(${direction * 48}px)` }),
   visible: { opacity: 1, transform: 'translateY(0px)' },
-  exit: (direction: number) => ({ opacity: 0, transform: `translateY(${-direction * 48}px)` }),
 }
 
-function TriageDetailBody({ item, titleId, direction, focusTitle }: {
-  item: Gig; titleId: string; direction: number; focusTitle: boolean
+function TriageDetailBody({ item, titleId, direction, focusTitle, scrollRef }: {
+  item: Gig; titleId: string; direction: number; focusTitle: boolean; scrollRef: RefObject<HTMLDivElement | null>
 }) {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const isPresent = useIsPresent()
   const reducedMotion = useReducedMotion()
+
+  // Reset only when the incoming body mounts, after the old item has faded out.
+  useLayoutEffect(() => {
+    scrollRef.current?.scrollTo({ top: 0 })
+  }, [scrollRef])
 
   useEffect(() => {
     if (focusTitle && isPresent) titleRef.current?.focus({ preventScroll: true })
@@ -103,16 +107,15 @@ function TriageDetailBody({ item, titleId, direction, focusTitle }: {
     <motion.div
       data-detail-body=""
       data-direction={direction}
-      className="col-start-1 row-start-1 min-w-0"
-      style={isPresent ? undefined : { position: 'absolute', inset: 0 }}
+      className="min-w-0"
       aria-hidden={!isPresent || undefined}
       inert={!isPresent}
       custom={direction}
       variants={slideVariants}
       initial={reducedMotion ? false : 'enter'}
       animate="visible"
-      exit="exit"
-      transition={{ duration: reducedMotion ? 0 : 0.3, ease: [0.22, 0.61, 0.36, 1] }}
+      exit={{ opacity: 0, transition: { duration: reducedMotion ? 0 : 0.1, ease: 'easeOut' } }}
+      transition={{ duration: reducedMotion ? 0 : 0.2, ease: [0.22, 0.61, 0.36, 1] }}
     >
       <h2
         ref={titleRef}

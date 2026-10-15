@@ -259,3 +259,25 @@ After (settled states):
 ![After: directional detail view and footer](images/11-directional.jpg)
 
 ![After: keyboard shortcut guide](images/11-shortcuts.jpg)
+
+## 12. Separate the detail exit and entrance
+
+**Original wording (excerpt)**
+
+> I think maybe if you can fade the older, the previous item out completely and then transition that one upwards, it will be much smoother, it will be more clearer
+
+**Precise version**
+
+> Fade the previous detail body out fully before sliding the next one in. Preserve directional navigation, the moving highlight, and expansion. Review the repo for focused cleanup and rewrite the README in my voice around four design decisions, with before/after examples.
+
+**Result**
+
+Sequenced a 100ms fade-out and 200ms entrance. Removed the overlap wrapper/positioning and three unused scaffold assets. The README explains flush tabs, taller expansion, Peek, and discoverable keyboard controls, plus components and lessons. Browser checks cover sequencing, rapid navigation, mid-transition close, focus, and mobile. Tests/build/lint pass; the existing bundle warning remains. Reduced-motion paths were code-reviewed. Commit: `fix(triage): sequence detail transitions and document design decisions`.
+
+Before:
+
+![Before: overlapping detail transitions](images/12-before-sequential.jpg)
+
+After (settled state):
+
+![After: sequential detail transition](images/12-sequential.jpg)
