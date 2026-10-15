@@ -91,3 +91,29 @@ Before:
 After:
 
 ![After: Triage heading, star toggle, and sample gigs](images/04-triage-heading-and-items.jpg)
+
+## 5. Separate team logic and fix header scrolling
+
+**Original wording (excerpts)**
+
+> If possible, can you move those into hooks, or is it prefer?
+
+> such that when we start having functionalities like viewing the details of an item, we wouldn't want to put it in the same component, or in the same app.tsx file.
+
+> It scrolls. I don't know, like it scrolls vertically.
+
+**Precise version**
+
+> Extract team state, creation, selection, and favourite actions into a focused hook. Keep tab rendering and its DOM scroll effect in a team-header component, leaving App.tsx to compose the UI. Prevent vertical scrolling in the team strip while preserving horizontal overflow and keyboard navigation.
+
+**Result**
+
+Added `useTeams` and `TeamHeader`. Removed the unused tab underline and constrained vertical overflow: content height now matches the 40px strip instead of extending to 45px. Verified creation, duplicate validation, favourites, team switching, and mobile keyboard navigation. Commit: `fix(triage): isolate team logic and prevent vertical tab scrolling`.
+
+Before:
+
+![Before: team strip with vertical overflow](images/05-before-team-strip-fix.jpg)
+
+After:
+
+![After: team strip with no vertical overflow](images/05-fixed-team-strip.jpg)
