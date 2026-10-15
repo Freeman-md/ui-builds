@@ -12,3 +12,7 @@ npm run dev
 `npm run build` checks types and builds the app. `npm run lint` runs the linter.
 
 Current slice: centered container, selected Engineering tab, and an add-team control reserved for the next iteration. The body is intentionally blank.
+
+## Notes
+
+[Design communication notebook](notes/design-communication.md): original requests, precise versions, lessons, and screenshots from each design iteration.
