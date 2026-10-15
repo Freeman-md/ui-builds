@@ -281,3 +281,27 @@ Before:
 After (settled state):
 
 ![After: sequential detail transition](images/12-sequential.jpg)
+
+## 13. Let Peek flow with the highlight
+
+**Original wording (excerpts)**
+
+> It should flow, flow up or flow down. You get the point I'm trying to make? Just the same way the highlighter flows up and down.
+
+> when I'm using the arrow to navigate between list items, especially, that's before the details is shown.
+
+**Precise version**
+
+> Animate the Peek surface between row anchors over 300ms, matching the highlight’s easing, for hover and keyboard navigation. Preserve focus, collision handling, and Enter-to-open. Document this decision and the sequential detail fade/slide in the README.
+
+**Result**
+
+Added a transform transition to Peek’s positioning layer. Verified intermediate positions in both directions, rapid reversal, hover/pointer entry, keyboard handoff, scrolled lists, and mobile placement. Tests/build/lint pass. Reduced-motion handling is inherited from the existing CSS rule and was code-reviewed; the existing bundle warning remains. Commit: `fix(triage): glide peek between highlighted rows`.
+
+Before:
+
+![Before: Peek jumped between row anchors](images/13-before-peek-flow.jpg)
+
+After (settled state):
+
+![After: Peek glides to the highlighted row](images/13-peek-flow.jpg)

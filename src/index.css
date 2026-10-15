@@ -293,6 +293,11 @@ body {
   background: #141416;
 }
 
+/* Move the anchored surface independently of the popup's entrance/exit effects. */
+.triage-peek-positioner[data-open] {
+  transition: transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
 .triage-row:focus-visible {
   transition: none;
   outline: 2px solid var(--ring);

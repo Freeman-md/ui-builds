@@ -19,6 +19,7 @@ export function TriagePeek({ item, popupId, descriptionId, announce }: TriagePee
         side="right"
         align="start"
         sideOffset={8}
+        positionerClassName="triage-peek-positioner"
         className="w-72 max-w-[calc(100vw-2rem)] gap-2 bg-card p-4 shadow-none ring-white/15 duration-150"
       >
         {item && (

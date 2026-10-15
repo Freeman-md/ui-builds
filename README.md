@@ -30,7 +30,7 @@ I added a compact preview for a quick read without expanding the workspace. Hove
 
 | Before | After |
 | --- | --- |
-| ![List without Peek](notes/images/08-before-peek.jpg) | ![Compact Peek with identifier](notes/images/09-peek-identifier.jpg) |
+| ![List without Peek](notes/images/08-before-peek.jpg) | ![Compact Peek with identifier](notes/images/13-peek-flow.jpg) |
 
 ### 4. Make keyboard controls discoverable
 
@@ -42,9 +42,15 @@ I put contextual key hints in a persistent footer, with a clickable shortcut gui
 
 Use **↑/↓** in the list, **J/K** for next/previous, **Enter** to open, and **Esc** to return. **←/→** switches focused team tabs. **N** creates a team, **F** favourites it, **C** copies an open item’s ID, and **?** opens the [complete guide](notes/images/11-shortcuts.jpg).
 
+## Animation decisions
+
+- **Keep Peek connected to selection.** I wanted the preview to travel up or down with the row highlight, including during arrow-key navigation. It now glides between anchors over 300ms using the same easing as the highlight. First opening and closing keep their own short transitions.
+- **Let the old details leave first.** Showing two descriptions at once felt visually busy. I chose a complete 100ms fade-out before the next item slides in over 200ms. The slide direction follows list order, while the container and action buttons stay anchored.
+- **Stay responsive during motion.** Repeated navigation retargets Peek from its current position; detail changes resolve to the latest selection. Reduced-motion preferences disable the effects.
+
 ## What I learned
 
-Describing edges, proportions, direction, and timing made my feedback easier to implement. Motion needed iteration too: overlapping detail transitions made two items compete for attention. The previous item now fades out for 100ms before the next slides in over 200ms. Direction follows list order, and one highlight travels between rows. Reduced-motion preferences disable these effects.
+Describing edges, proportions, direction, and timing made my feedback easier to implement. A preview’s position and its movement are separate decisions: following the correct row still felt abrupt until the surface travelled between rows. I also learned to judge exits and entrances together, rather than making each animation smooth in isolation.
 
 ## Components and structure
 
