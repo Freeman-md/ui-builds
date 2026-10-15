@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react'
+import { ChevronRight, CircleDashed, PanelLeft, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -15,32 +15,40 @@ function App() {
       <main className="grid min-h-svh place-items-center p-6 sm:p-10" aria-label="Triage inbox">
         <Card className="w-full max-w-[480px] gap-0 rounded-xl py-0 shadow-none ring-white/10">
           <Tabs defaultValue="engineering" className="gap-0">
-            <div className="flex h-14 items-center gap-1 border-b border-white/7 px-3">
-              <TabsList aria-label="Teams" className="h-9 bg-transparent p-0">
+            <div className="flex h-10 items-center bg-[var(--inbox-header)]">
+              <div className="flex h-full w-12 shrink-0 items-center justify-center border-b border-white/7">
+                <PanelLeft className="size-4 text-muted-foreground" aria-hidden="true" />
+              </div>
+              <TabsList aria-label="Teams" className="inbox-team-tabs">
                 <TabsTrigger
                   value="engineering"
-                  className="h-9 rounded-md px-3 text-sm transition-colors data-active:bg-white/7 data-active:shadow-none dark:data-active:border-transparent dark:data-active:bg-white/7 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                  className="inbox-team-tab"
                 >
-                  Engineering
+                  <CircleDashed className="size-4 text-muted-foreground" aria-hidden="true" />
+                  <span>Engineering</span>
+                  <ChevronRight className="size-3 text-muted-foreground" aria-hidden="true" />
+                  <span>Triage</span>
                 </TabsTrigger>
               </TabsList>
-              <Tooltip>
-                <TooltipTrigger
-                  render={
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label="Add team"
-                      aria-disabled="true"
-                      className="relative text-muted-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring"
-                    />
-                  }
-                >
-                  <Plus className="size-4" aria-hidden="true" />
-                  <span className="absolute top-1/2 left-1/2 size-12 -translate-1/2 pointer-fine:hidden" aria-hidden="true" />
-                </TooltipTrigger>
-                <TooltipContent side="top">Add team — not available yet</TooltipContent>
-              </Tooltip>
+              <div className="flex h-full flex-1 items-center border-b border-white/7 pr-2 pl-1">
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Add team"
+                        aria-disabled="true"
+                        className="relative text-muted-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring"
+                      />
+                    }
+                  >
+                    <Plus className="size-4" aria-hidden="true" />
+                    <span className="absolute top-1/2 left-1/2 size-12 -translate-1/2 pointer-fine:hidden" aria-hidden="true" />
+                  </TooltipTrigger>
+                  <TooltipContent side="top">Add team — not available yet</TooltipContent>
+                </Tooltip>
+              </div>
             </div>
             <TabsContent
               value="engineering"
