@@ -266,6 +266,8 @@ body {
 }
 
 .triage-row {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 4px 12px;
@@ -279,11 +281,15 @@ body {
   background: rgb(255 255 255 / 3%);
 }
 
-.triage-row[data-peeking="true"] {
+.triage-row-highlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background: rgb(255 255 255 / 5%);
 }
 
-.triage-row[aria-current="true"] {
+.triage-row[aria-current="true"] .triage-row-highlight {
   background: #141416;
 }
 

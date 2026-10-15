@@ -233,3 +233,29 @@ Before:
 After (settled state):
 
 ![After: detail view with coordinated transitions](images/10-motion.jpg)
+
+## 11. Directional slides, keyboard guide, and a second sample team
+
+**Original wording (excerpts)**
+
+> If I go down, the highlight should scroll. It should animate down. It should go from the up one to the down one.
+
+> Go ahead and implement the directional slides, moving highlight, and keyboard shortcuts with the footer guide. Keep the expansion as it is, verify everything works, update the notes, and commit it. Also, add an additional fictional team like we have for "Engineering" so I can easily illustrate switching teams without creating a new one, thanks
+
+**Precise version**
+
+> Use reversible 300ms vertical slides for detail changes and move one shared highlight between rows. Preserve expansion. Add scoped navigation/action shortcuts, a contextual footer, and a complete shortcut guide. Seed Design with its own sample items alongside Engineering.
+
+**Result**
+
+Added 48px directional slides, the moving highlight, keyboard controls/help, and five Design items. Verified direction, jumps, rapid input, boundaries, team switching, form/dialog isolation, copy, favourite, focus restoration, and mobile layouts. Four shortcut tests, build, and lint pass. Reduced-motion paths reviewed, not browser-emulated; the existing bundle-size warning remains. Commit: `feat(triage): add directional navigation and keyboard guide`.
+
+Before:
+
+![Before: quick fades without a shortcut footer](images/11-before-directional.jpg)
+
+After (settled states):
+
+![After: directional detail view and footer](images/11-directional.jpg)
+
+![After: keyboard shortcut guide](images/11-shortcuts.jpg)

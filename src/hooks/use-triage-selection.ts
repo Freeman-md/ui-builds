@@ -1,20 +1,24 @@
 import { useRef, useState } from 'react'
+import type { Gig } from '@/data/sample-gigs'
 
-type Selection = { teamId: string; itemId: string; open: boolean; animate: boolean }
+type Selection = { teamId: string; itemId: string; open: boolean; focusDetails: boolean; direction: number }
 
-export function useTriageSelection(teamId: string) {
+export function useTriageSelection(teamId: string, items: Gig[]) {
   const [selection, setSelection] = useState<Selection | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
   const listPositionRef = useRef<{ element: HTMLElement; top: number } | null>(null)
   const pendingScrollRestore = useRef(false)
   const currentSelection = selection?.teamId === teamId ? selection : null
 
-  function openDetails(itemId: string, trigger: HTMLButtonElement, animate = true) {
+  function openDetails(itemId: string, trigger: HTMLButtonElement, focusDetails = true) {
     const list = trigger.closest<HTMLElement>('[role="region"]')
     listPositionRef.current = list ? { element: list, top: list.scrollTop } : null
     pendingScrollRestore.current = false
     triggerRef.current = trigger
-    setSelection({ teamId, itemId, open: true, animate })
+    const previousIndex = items.findIndex((item) => item.id === currentSelection?.itemId)
+    const nextIndex = items.findIndex((item) => item.id === itemId)
+    const direction = currentSelection?.open ? Math.sign(nextIndex - previousIndex) : 0
+    setSelection({ teamId, itemId, open: true, focusDetails, direction })
   }
 
   function restoreListPosition() {
@@ -42,7 +46,8 @@ export function useTriageSelection(teamId: string) {
   return {
     itemId: currentSelection?.itemId ?? null,
     isOpen: currentSelection?.open ?? false,
-    animateSelection: currentSelection?.animate ?? false,
+    focusDetails: currentSelection?.focusDetails ?? false,
+    direction: currentSelection?.direction ?? 0,
     openDetails,
     closeDetails,
     restoreListPosition,

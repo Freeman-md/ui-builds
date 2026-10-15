@@ -6,7 +6,7 @@ type Preview = { itemId: string; keyboard: boolean }
 export function useTriagePeek(
   items: Gig[],
   enabled: boolean,
-  onSelectItem: (itemId: string, trigger: HTMLButtonElement, animate?: boolean) => void,
+  onSelectItem: (itemId: string, trigger: HTMLButtonElement, focusDetails?: boolean) => void,
 ) {
   const instanceId = useId()
   const [preview, setPreview] = useState<Preview | null>(null)
@@ -17,14 +17,14 @@ export function useTriagePeek(
 
   const dismiss = useCallback(() => setPreview(null), [])
 
-  const openDetails = useCallback((id: string, trigger: HTMLButtonElement, animate = true) => {
+  const openDetails = useCallback((id: string, trigger: HTMLButtonElement, focusDetails = true) => {
     dismiss()
     // Returning from full details should restore focus without reopening Peek.
     suppressFocusPreview.current = true
-    onSelectItem(id, trigger, animate)
+    onSelectItem(id, trigger, focusDetails)
   }, [dismiss, onSelectItem])
 
-  const navigate = useCallback((key: string, currentId: string | null) => {
+  const navigate = useCallback((key: string, currentId: string | null, moveFocus = true) => {
     if (!items.length) return false
     const index = items.findIndex((item) => item.id === currentId)
     let nextIndex: number
@@ -36,12 +36,13 @@ export function useTriagePeek(
 
     const nextId = items[nextIndex].id
     const row = rows.current.get(nextId)
-    row?.focus({ preventScroll: true })
+    if (enabled || moveFocus) row?.focus({ preventScroll: true })
     row?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
     setFocusedId(nextId)
     if (enabled) setPreview({ itemId: nextId, keyboard: true })
+    else if (row && nextId !== currentId) onSelectItem(nextId, row, false)
     return true
-  }, [items, enabled])
+  }, [items, enabled, onSelectItem])
 
   function onRowFocus(id: string) {
     setFocusedId(id)
@@ -79,7 +80,7 @@ export function useTriagePeek(
         const row = rows.current.get(activeId)
         if (row) {
           event.preventDefault()
-          openDetails(activeId, row, false)
+          openDetails(activeId, row)
         }
       }
     }

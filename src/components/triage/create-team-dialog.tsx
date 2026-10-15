@@ -16,20 +16,23 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 type CreateTeamDialogProps = {
   teamNames: string[]
   onCreate: (name: string) => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-export function CreateTeamDialog({ teamNames, onCreate }: CreateTeamDialogProps) {
-  const [open, setOpen] = useState(false)
+export function CreateTeamDialog({ teamNames, onCreate, open, onOpenChange }: CreateTeamDialogProps) {
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+  const [previousOpen, setPreviousOpen] = useState(open)
 
-  function handleOpenChange(nextOpen: boolean) {
-    if (nextOpen) {
+  // Reset before the newly opened form paints; retain content during its exit.
+  if (previousOpen !== open) {
+    setPreviousOpen(open)
+    if (open) {
       setName('')
       setError('')
     }
-    setOpen(nextOpen)
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -46,11 +49,11 @@ export function CreateTeamDialog({ teamNames, onCreate }: CreateTeamDialogProps)
     }
 
     onCreate(trimmedName)
-    setOpen(false)
+    onOpenChange(false)
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <Tooltip>
         <TooltipTrigger
           render={
@@ -60,7 +63,7 @@ export function CreateTeamDialog({ teamNames, onCreate }: CreateTeamDialogProps)
                   type="button"
                   variant="ghost"
                   size="icon"
-                  aria-label="Add team"
+                  aria-label="Add team" aria-keyshortcuts="n"
                   className="text-muted-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring"
                 />
               }

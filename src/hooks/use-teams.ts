@@ -9,6 +9,7 @@ export type Team = {
 export function useTeams() {
   const [teams, setTeams] = useState<Team[]>([
     { id: 'engineering', name: 'Engineering', starred: false },
+    { id: 'design', name: 'Design', starred: false },
   ])
   const [selectedTeam, selectTeam] = useState('engineering')
 

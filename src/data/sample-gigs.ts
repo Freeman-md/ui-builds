@@ -140,3 +140,58 @@ export const sampleGigs: Gig[] = [
     ],
   },
 ]
+
+
+export const designGigs: Gig[] = [
+  {
+    id: 'DES-001',
+    title: 'Refresh the workspace navigation',
+    source: 'Design review',
+    age: '8m ago',
+    category: 'Product design',
+    brief: 'Explore a clearer navigation structure for teams managing several projects. Keep frequent destinations easy to reach.',
+    requirements: ['Compare two navigation approaches.', 'Include compact and wide layouts.', 'Document focus and empty states.'],
+  },
+  {
+    id: 'DES-002',
+    title: 'Design a calmer notification inbox',
+    source: 'Customer feedback',
+    age: '24m ago',
+    category: 'Interaction design',
+    brief: 'Help people distinguish updates that need action from updates they can read later. Use a small set of consistent visual cues.',
+    requirements: ['Define unread and resolved states.', 'Group related updates.', 'Check contrast and keyboard navigation.'],
+  },
+  {
+    id: 'DES-003',
+    title: 'Clarify the invitation flow',
+    source: 'Research',
+    age: '1h ago',
+    category: 'UX writing',
+    brief: 'Make inviting a teammate and choosing their access level easier to understand, with useful confirmation and error messages.',
+    requirements: ['Clarify each access level.', 'Show pending invitations.', 'Write actionable error messages.'],
+  },
+  {
+    id: 'DES-004',
+    title: 'Create an accessible chart palette',
+    source: 'Internal request',
+    age: '3h ago',
+    category: 'Design systems',
+    brief: 'Develop a compact chart palette that works on dark surfaces and remains understandable without relying on color alone.',
+    requirements: ['Pair colors with labels and patterns.', 'Check small chart examples.', 'Document contrast decisions.'],
+  },
+  {
+    id: 'DES-005',
+    title: 'Polish the project handoff screen',
+    source: 'Design review',
+    age: '6h ago',
+    category: 'Product design',
+    brief: 'Make the final project handoff clear, showing what is ready, who owns the next step, and where supporting files live.',
+    requirements: ['Show ownership and next steps.', 'Include missing-file states.', 'Adapt the layout for phones.'],
+  },
+]
+
+export function getTeamGigs(teamId: string): Gig[] {
+  if (teamId === 'engineering') return sampleGigs
+  if (teamId === 'design') return designGigs
+  return []
+}
