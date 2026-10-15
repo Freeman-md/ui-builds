@@ -11,7 +11,7 @@ npm run dev
 
 `npm run build` checks types and builds the app. `npm run lint` runs the linter.
 
-Current slice: a centered inbox with team creation, a Triage heading, a per-team favourite toggle, and ten sample gigs in Engineering. The list scrolls beneath the fixed heading. New teams have empty lists; details and Peek are deferred. Teams and favourites live in memory and reset on refresh.
+Current slice: a centered inbox with team creation, per-team favourites, and ten sample gigs in Engineering. Selecting a gig smoothly expands the container into a list/detail view with copy and close actions. Escape or Back restores focus and list position. On narrow screens, details replace the list. Reduced-motion preferences disable transitions. New teams have empty lists; Peek is deferred. All state resets on refresh.
 
 ## Notes
 

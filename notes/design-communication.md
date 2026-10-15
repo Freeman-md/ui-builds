@@ -117,3 +117,27 @@ Before:
 After:
 
 ![After: team strip with no vertical overflow](images/05-fixed-team-strip.jpg)
+
+## 6. Open triage details
+
+**Original wording (excerpts)**
+
+> We want when I click on a detail, it should be highlighted, of course maybe a bit darker. And then the details should open to the right. It's more like that container is extending to the right, and the details is gonna take up three-quarters of maybe the container's full width.
+
+> The most important thing is, while I want you to do this, the most important thing is the animations, the transitions, how seamless it is, how, do you get what I'm trying to say?
+
+**Precise version**
+
+> Make rows selectable and darken the selected row. Smoothly expand and recenter the container into a 25/75 list-and-detail layout. Show the identifier, title, copy and close actions, badges, brief, and requirements. Preserve list scroll and restore focus on close; support keyboard input, a mobile Back flow, and reduced motion. Defer Peek.
+
+**Result**
+
+Added a selection hook and separate workspace/detail components. The split uses a 260ms transition; mobile shows details in place of the list. Verified switching, Copy identifier, Escape/Back, exact scroll and focus restoration, team changes, and narrow layouts. Commit: `feat(triage): add expanding split detail view`.
+
+Before:
+
+![Before: triage list only](images/06-before-details.jpg)
+
+After:
+
+![After: selected row and inline details](images/06-split-details.jpg)

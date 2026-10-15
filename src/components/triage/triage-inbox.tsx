@@ -1,5 +1,5 @@
 import { Inbox, Star } from 'lucide-react'
-import { Item, ItemGroup, ItemTitle } from '@/components/ui/item'
+import { Item, ItemGroup } from '@/components/ui/item'
 import { Toggle } from '@/components/ui/toggle'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { Gig } from '@/data/sample-gigs'
@@ -9,9 +9,13 @@ type TriageInboxProps = {
   items: Gig[]
   starred: boolean
   onStarredChange: (starred: boolean) => void
+  selectedItemId: string | null
+  onSelectItem: (itemId: string, trigger: HTMLButtonElement) => void
 }
 
-export function TriageInbox({ teamName, items, starred, onStarredChange }: TriageInboxProps) {
+export function TriageInbox({
+  teamName, items, starred, onStarredChange, selectedItemId, onSelectItem,
+}: TriageInboxProps) {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="flex h-11 shrink-0 items-center gap-1 border-b border-white/7 px-4">
@@ -46,18 +50,28 @@ export function TriageInbox({ teamName, items, starred, onStarredChange }: Triag
               <Item
                 key={item.id}
                 role="listitem"
-                className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 rounded-none border-0 border-b border-white/5 px-4 py-2.5 last:border-b-0"
+                className="block rounded-none border-0 border-b border-white/5 p-0 last:border-b-0"
               >
-                <ItemTitle className="block w-full min-w-0 truncate text-sm/5" title={item.title}>
-                  {item.title}
-                </ItemTitle>
-                <span className="text-right text-xs/5 whitespace-nowrap text-muted-foreground tabular-nums">
-                  {item.id}
-                </span>
-                <span className="truncate text-xs/5 text-muted-foreground">{item.source}</span>
-                <span className="text-right text-xs/5 whitespace-nowrap text-muted-foreground tabular-nums">
-                  {item.age}
-                </span>
+                <button
+                  type="button"
+                  onClick={(event) => onSelectItem(item.id, event.currentTarget)}
+                  aria-label={`View ${item.id}: ${item.title}`}
+                  aria-expanded={selectedItemId === item.id}
+                  aria-controls="triage-details"
+                  aria-current={selectedItemId === item.id ? 'true' : undefined}
+                  className="triage-row"
+                >
+                  <span className="block w-full min-w-0 truncate text-sm/5 font-medium" title={item.title}>
+                    {item.title}
+                  </span>
+                  <span className="text-right text-xs/5 whitespace-nowrap text-muted-foreground tabular-nums">
+                    {item.id}
+                  </span>
+                  <span className="truncate text-xs/5 text-muted-foreground">{item.source}</span>
+                  <span className="text-right text-xs/5 whitespace-nowrap text-muted-foreground tabular-nums">
+                    {item.age}
+                  </span>
+                </button>
               </Item>
             ))}
           </ItemGroup>

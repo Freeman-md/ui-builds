@@ -198,3 +198,112 @@ body {
   scrollbar-width: none;
   box-shadow: inset 0 -1px var(--border);
 }
+
+.triage-shell {
+  width: min(480px, 100%);
+  transition: width 260ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.triage-shell[data-expanded="true"] {
+  width: min(1200px, 100%);
+}
+
+.triage-panel {
+  height: 320px;
+}
+
+.triage-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0fr);
+  height: 100%;
+  transition: grid-template-columns 260ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.triage-workspace[data-open="true"] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+}
+
+.triage-list-pane {
+  min-width: 0;
+  min-height: 0;
+}
+
+.triage-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  transition: background-color 120ms ease;
+}
+
+.triage-row:hover {
+  background: rgb(255 255 255 / 3%);
+}
+
+.triage-row[aria-current="true"] {
+  background: #141416;
+}
+
+.triage-row:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+.triage-detail-pane {
+  min-width: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 200ms ease-out, transform 260ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 260ms;
+}
+
+.triage-workspace[data-open="true"] .triage-detail-pane {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.triage-details-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* Keep text wrapping stable while its grid track reveals the pane. */
+  width: calc(min(1200px, 100vw - 80px) * 0.75);
+  border-left: 1px solid var(--border);
+  background: var(--card);
+}
+
+@media (max-width: 899px) {
+  .triage-workspace {
+    position: relative;
+    display: block;
+  }
+
+  .triage-list-pane {
+    height: 100%;
+  }
+
+  .triage-workspace[data-open="true"] .triage-list-pane {
+    visibility: hidden;
+  }
+
+  .triage-detail-pane {
+    position: absolute;
+    inset: 0;
+  }
+
+  .triage-details-content {
+    width: 100%;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .triage-panel {
+    height: 280px;
+  }
+}
