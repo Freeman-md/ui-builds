@@ -163,3 +163,27 @@ Before:
 After:
 
 ![After: wider and taller detail view](images/07-taller-details.jpg)
+
+## 8. Peek with hover and keyboard support
+
+**Original wording (excerpts)**
+
+> You see picking is just basically it's going to show the title and then just the brief detail, and then just maybe the age. Keep it very precise. It shouldn't be too long.
+
+> Such that if I'm picking at one, I can click on down, and it goes to the next one. I can pick on the next one, and maybe possibly I can press Enter, and then it opens, expanded into a full, which is why we need to ensure that the expansion is larger.
+
+**Precise version**
+
+> Show a compact Peek on row hover or keyboard focus, containing the title, a three-line brief, and age. Up/Down changes the preview; Enter opens full details; Escape dismisses Peek. Keep focus in the list and let the pointer enter the preview. Hide Peek while details are open.
+
+**Result**
+
+Added a non-modal shadcn Popover and focused Peek hook. Verified hover, pointer entry/exit, keyboard navigation, Enter, Escape, focus restoration, narrow layouts, and team creation. Build and lint pass. Commit: `feat(triage): add hover and keyboard peek`.
+
+Before:
+
+![Before: list without Peek](images/08-before-peek.jpg)
+
+After:
+
+![After: compact row preview](images/08-peek.jpg)
