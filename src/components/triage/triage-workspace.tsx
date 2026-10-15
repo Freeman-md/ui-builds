@@ -10,7 +10,7 @@ import { useTriageSelection } from '@/hooks/use-triage-selection'
 
 export function TriageWorkspace() {
   const { teams, selectedTeam, selectTeam, createTeam, setTeamStarred } = useTeams()
-  const { itemId, isOpen, openDetails, closeDetails } = useTriageSelection(selectedTeam)
+  const { itemId, isOpen, openDetails, closeDetails, restoreListPosition } = useTriageSelection(selectedTeam)
   const selectedItem = sampleGigs.find((item) => item.id === itemId)
 
   function handleTeamChange(value: string | number | null) {
@@ -44,6 +44,11 @@ export function TriageWorkspace() {
           <TabsContent
             key={team.id}
             value={team.id}
+            onTransitionEnd={(event) => {
+              if (event.target === event.currentTarget && event.propertyName === 'height') {
+                restoreListPosition()
+              }
+            }}
             className="triage-panel m-0 flex-none rounded-b-xl focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-ring"
           >
             <div className="triage-workspace" data-open={isOpen}>

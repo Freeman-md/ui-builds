@@ -210,6 +210,11 @@ body {
 
 .triage-panel {
   height: 320px;
+  transition: height 260ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.triage-shell[data-expanded="true"] .triage-panel {
+  height: min(clamp(480px, 70svh, 560px), calc(100svh - 144px));
 }
 
 .triage-workspace {

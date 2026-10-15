@@ -141,3 +141,25 @@ Before:
 After:
 
 ![After: selected row and inline details](images/06-split-details.jpg)
+
+## 7. Expand details vertically too
+
+**Original wording (excerpt)**
+
+> I think you should expand it height-wise as well. Like, it should maybe, like—I mean, there should be more like a minimum height that is still bigger than the existing container height, do you get the potential to make.
+
+**Precise version**
+
+> Expand the detail container in height as well as width. Use an expanded body height of roughly 480–560px where space allows, capped to fit shorter screens. Coordinate both transitions and preserve list position and focus when closing.
+
+**Result**
+
+The expanded body grows to 504px on a 720px-high desktop viewport and fits shorter mobile screens. Verified height animation, Escape/Back, focus, and restored list scroll. Build and lint pass. Commit: `fix(triage): restore vertical detail expansion`.
+
+Before:
+
+![Before: width-only expansion](images/07-before-height.jpg)
+
+After:
+
+![After: wider and taller detail view](images/07-taller-details.jpg)
