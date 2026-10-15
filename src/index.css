@@ -131,6 +131,7 @@
 /* The study starts with the dark surface from the Linear reference. */
 .dark {
   --inbox-header: #151517;
+  --inbox-list: #202023;
   --background: #111113;
   --card: #1b1b1e;
   --foreground: #ededee;

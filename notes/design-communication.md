@@ -67,3 +67,27 @@ Dialog:
 After:
 
 ![New Design team selected with the Triage breadcrumb and blank body](images/03-team-created.jpg)
+
+## 4. Add the Triage heading and sample list
+
+**Original wording (excerpts)**
+
+> For a list item, I can see that it's got, let's say, two rows. I don't know how it was implemented though, but I know in the first row we have the title and justified to the right of it we have the identifier for that particular item. Below we have the source and then to the right of the source we have the age of the item, and I think we can use maybe like ten dummy items.
+
+> And then also they are all filled to the left and right.
+
+**Precise version**
+
+> Add a full-width Triage heading with an inbox icon and star toggle. Below it, show ten edge-to-edge sample gigs: title left and identifier right, then source left and age right. Give the list a slightly lighter background and subtle row separators. Keep the heading fixed while the list scrolls; leave new teams empty and defer details and Peek.
+
+**Result**
+
+Ten two-line gigs in Engineering, keyboard-scrollable list, and independent star state per team. Verified scrolling to the final item, star toggling, team switching, and mobile layout. Commit: `feat(triage): add inbox heading and sample gig list`.
+
+Before:
+
+![Before: blank Engineering inbox](images/04-before-triage-list.jpg)
+
+After:
+
+![After: Triage heading, star toggle, and sample gigs](images/04-triage-heading-and-items.jpg)

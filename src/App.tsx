@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { ChevronRight, CircleDashed, PanelLeft } from 'lucide-react'
 import { CreateTeamDialog } from '@/components/triage/create-team-dialog'
+import { TriageInbox } from '@/components/triage/triage-inbox'
+import { sampleGigs } from '@/data/sample-gigs'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
-type Team = { id: string; name: string }
+type Team = { id: string; name: string; starred: boolean }
 
 function App() {
-  const [teams, setTeams] = useState<Team[]>([{ id: 'engineering', name: 'Engineering' }])
+  const [teams, setTeams] = useState<Team[]>([{ id: 'engineering', name: 'Engineering', starred: false }])
   const [selectedTeam, setSelectedTeam] = useState('engineering')
   const activeTabRef = useRef<HTMLButtonElement>(null)
 
@@ -17,7 +19,7 @@ function App() {
   }, [selectedTeam])
 
   function createTeam(name: string) {
-    const team = { id: crypto.randomUUID(), name }
+    const team = { id: crypto.randomUUID(), name, starred: false }
     setTeams((currentTeams) => [...currentTeams, team])
     setSelectedTeam(team.id)
   }
@@ -64,7 +66,18 @@ function App() {
                 key={team.id}
                 value={team.id}
                 className="m-0 h-[280px] flex-none rounded-b-xl focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-ring sm:h-[320px]"
-              />
+              >
+                <TriageInbox
+                  teamName={team.name}
+                  items={team.id === 'engineering' ? sampleGigs : []}
+                  starred={team.starred}
+                  onStarredChange={(starred) => {
+                    setTeams((currentTeams) => currentTeams.map((currentTeam) => (
+                      currentTeam.id === team.id ? { ...currentTeam, starred } : currentTeam
+                    )))
+                  }}
+                />
+              </TabsContent>
             ))}
           </Tabs>
         </Card>

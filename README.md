@@ -11,7 +11,7 @@ npm run dev
 
 `npm run build` checks types and builds the app. `npm run lint` runs the linter.
 
-Current slice: a centered container with team tabs and a create-team dialog. New teams are selected automatically; each breadcrumb ends in Triage and each body is blank. Teams live in memory and reset on refresh.
+Current slice: a centered inbox with team creation, a Triage heading, a per-team favourite toggle, and ten sample gigs in Engineering. The list scrolls beneath the fixed heading. New teams have empty lists; details and Peek are deferred. Teams and favourites live in memory and reset on refresh.
 
 ## Notes
 
