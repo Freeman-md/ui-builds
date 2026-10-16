@@ -37,7 +37,7 @@
 .booking-summary-text { min-width: 0; }
 .booking-summary-text h2 { font-size: 13px; font-weight: 500; line-height: 1.5; }
 .booking-summary-text p { margin-top: 2px; font-size: 12px; line-height: 1.6; font-variant-numeric: tabular-nums; }
-.booking-summary-text p span { color: var(--muted-foreground); }
+.booking-summary-timezone { color: var(--muted-foreground); }
 .booking-summary-actions { display: flex; min-height: 32px; align-items: center; gap: 8px; margin-left: auto; }
 @media (max-width: 479px) {
   .booking-summary { padding: 12px; }
@@ -92,3 +92,8 @@
 .booking-range-window { display: inline-grid; overflow: hidden; vertical-align: bottom; min-height: 1.5em; }
 .booking-range-window > span { grid-area: 1 / 1; }
 .booking-summary-motion { overflow: hidden; }
+
+.booking-summary-date { display: inline-grid; max-width: 100%; min-height: 1.5em; vertical-align: bottom; }
+.booking-summary-date > span { grid-area: 1 / 1; }
+.booking-summary-time { display: inline-grid; width: 5ch; min-height: 1.6em; vertical-align: bottom; perspective: 240px; }
+.booking-summary-time-value { display: block; grid-area: 1 / 1; backface-visibility: hidden; transform-origin: center; }

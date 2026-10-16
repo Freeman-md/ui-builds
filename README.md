@@ -140,8 +140,9 @@ These fixture times are London wall times, not bookings or availability from an 
 - Draw newly reached progress segments from left to right over 300ms; retract them when returning to an earlier step.
 - Fade the old week out for 100ms, then slide the new range and grid in over 200ms. Next enters from the right; previous enters from the left. Arrow controls stay fixed and rapid navigation resolves to the latest week.
 - Expand the selected-slot summary downward over 300ms, with a short fade/slide. Keep it open when choosing another time; collapse it upward on dismissal. Exiting content is hidden from assistive technology and cannot receive focus.
+- Flip a changed summary time vertically: the old value rotates/fades out for 100ms, then the new value rotates in over 200ms. Fade the date only when its day changes. Keep the icon, timezone, and card steady; reserve a fixed-width time window and announce the latest selection separately. Rapid changes resolve to the latest value.
 
-Triage and Booking share the same easing and timings through `src/lib/motion.ts`. Reduced-motion preferences make these changes immediate. The shared frame remains the same size. [Summary during its reveal](notes/images/22-summary-entering.png); [settled layout](notes/images/22-booking-motion.png).
+Triage and Booking share the same easing and timings through `src/lib/motion.ts`. Reduced-motion preferences make these changes immediate. The shared frame remains the same size. [Summary during its reveal](notes/images/22-summary-entering.png); [settled layout](notes/images/22-booking-motion.png). [Time/date flip result](notes/images/23-summary-flip.png).
 
 ## Other Triage decisions
 
