@@ -7,7 +7,7 @@ import { formatBookingDate } from '../week'
 
 type BookingConfirmationProps = { booking: DemoBooking; onRestart: () => void }
 const characterInterval = 0.018
-const revealPause = 0.5
+const revealPause = 1.5
 const immediate = { duration: 0, delay: 0 }
 
 function flipAt(delay: number, rise = 0): Variants {
