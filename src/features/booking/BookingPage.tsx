@@ -1,8 +1,9 @@
 import { AnimatePresence } from 'motion/react'
-import { useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { BookingConfirmation } from './components/BookingConfirmation'
 import { BookingDetails } from './components/BookingDetails'
+import { BookingStepContent } from './components/BookingStepContent'
 import { BookingProgress } from './components/BookingProgress'
 import { SelectedSlotSummary } from './components/SelectedSlotSummary'
 import { BOOKING_TIMEZONE, formatBookingDate } from './week'
@@ -16,16 +17,14 @@ export default function BookingPage() {
   const availabilityRef = useRef<HTMLElement>(null)
   const restoreAvailabilityFocus = useRef(false)
 
-  useEffect(() => {
-    if (flow.step === 'slots' && restoreAvailabilityFocus.current) {
-      const container = availabilityRef.current
-      const target = container?.querySelector<HTMLButtonElement>('.booking-slot[aria-pressed="true"]')
-        ?? container?.querySelector<HTMLButtonElement>('.booking-slot')
-        ?? container?.querySelector<HTMLButtonElement>('.booking-week-buttons button')
-      target?.focus()
-      restoreAvailabilityFocus.current = false
-    }
-  }, [flow.step])
+  const handleSlotsReady = useCallback((container: HTMLDivElement) => {
+    if (!restoreAvailabilityFocus.current) return
+    const target = container.querySelector<HTMLButtonElement>('.booking-slot[aria-pressed="true"]')
+      ?? container.querySelector<HTMLButtonElement>('.booking-slot')
+      ?? container.querySelector<HTMLButtonElement>('.booking-week-buttons button')
+    target?.focus()
+    restoreAvailabilityFocus.current = false
+  }, [])
 
   function handleClear() {
     availabilityRef.current?.querySelector<HTMLButtonElement>('.booking-slot[aria-pressed="true"]')?.focus()
@@ -46,14 +45,22 @@ export default function BookingPage() {
     <div className="booking-study">
       <BookingProgress step={flow.step} onBack={handleBack} isBooking={flow.isBooking} />
       <section ref={availabilityRef} className="booking-shell booking-step-shell" aria-label="Project discussion booking demo">
-        {flow.step === 'confirmation' && flow.confirmedBooking ? (
-          <BookingConfirmation booking={flow.confirmedBooking} onRestart={handleRestart} />
-        ) : flow.step === 'slots' ? <>
-          <BookingHeader weekStart={flow.weekStart} direction={flow.weekDirection} onWeekChange={flow.changeWeek} />
-          <WeeklySlots days={flow.days} direction={flow.weekDirection} selectedSlotId={flow.selectedSlotId} onSelectSlot={flow.selectSlot} />
-        </> : (
-          <BookingDetails values={flow.details} errors={flow.errors} onChange={flow.updateDetails} onSubmit={flow.submitDetails} isBooking={flow.isBooking} bookingError={flow.bookingError} />
-        )}
+        <AnimatePresence initial={false} mode="wait">
+          <BookingStepContent
+            key={flow.step}
+            direction={flow.stepDirection}
+            onReady={flow.step === 'slots' ? handleSlotsReady : undefined}
+          >
+            {flow.step === 'confirmation' && flow.confirmedBooking ? (
+              <BookingConfirmation booking={flow.confirmedBooking} onRestart={handleRestart} />
+            ) : flow.step === 'slots' ? <>
+              <BookingHeader weekStart={flow.weekStart} direction={flow.weekDirection} onWeekChange={flow.changeWeek} />
+              <WeeklySlots days={flow.days} direction={flow.weekDirection} selectedSlotId={flow.selectedSlotId} onSelectSlot={flow.selectSlot} />
+            </> : (
+              <BookingDetails values={flow.details} errors={flow.errors} onChange={flow.updateDetails} onSubmit={flow.submitDetails} isBooking={flow.isBooking} bookingError={flow.bookingError} />
+            )}
+          </BookingStepContent>
+        </AnimatePresence>
       </section>
       <AnimatePresence initial={false}>
         {flow.selection && flow.step !== 'confirmation' ? (

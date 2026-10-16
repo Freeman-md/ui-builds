@@ -13,6 +13,7 @@ export function useBookingFlow() {
   const [fixtureNow, setFixtureNow] = useState(() => new Date())
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null)
   const [step, setStep] = useState<'slots' | 'details' | 'confirmation'>('slots')
+  const [stepDirection, setStepDirection] = useState<-1 | 1>(1)
   const [details, setDetails] = useState<BookingDetailsValues>({ name: '', email: '', note: '' })
   const [errors, setErrors] = useState<BookingDetailsErrors>({})
   const [isBooking, setIsBooking] = useState(false)
@@ -42,11 +43,13 @@ export function useBookingFlow() {
     if (!selection) return
     setErrors({})
     setBookingError(null)
+    setStepDirection(1)
     setStep('details')
   }
 
   function backToSlots() {
     if (pendingRequest.current) return
+    setStepDirection(-1)
     setStep('slots')
     setBookingError(null)
   }
@@ -76,6 +79,7 @@ export function useBookingFlow() {
     }, controller.signal).then((booking) => {
       if (controller.signal.aborted) return
       setConfirmedBooking(booking)
+      setStepDirection(1)
       setStep('confirmation')
     }).catch(() => {
       if (!controller.signal.aborted) setBookingError('The demo booking could not be confirmed. Your details are saved here; try again.')
@@ -101,6 +105,7 @@ export function useBookingFlow() {
     setBookingError(null)
     setConfirmedBooking(null)
     setIsBooking(false)
+    setStepDirection(-1)
     setStep('slots')
   }
 
@@ -112,6 +117,6 @@ export function useBookingFlow() {
 
   return {
     weekStart, weekDirection, changeWeek, days, selectedSlotId, selection, selectSlot, clearSelection,
-    step, openDetails, backToSlots, details, errors, updateDetails, submitDetails, isBooking, bookingError, confirmedBooking, restartBooking,
+    step, stepDirection, openDetails, backToSlots, details, errors, updateDetails, submitDetails, isBooking, bookingError, confirmedBooking, restartBooking,
   }
 }

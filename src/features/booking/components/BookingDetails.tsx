@@ -15,7 +15,7 @@ type BookingDetailsProps = {
 
 export function BookingDetails({ values, errors, onChange, onSubmit, isBooking, bookingError }: BookingDetailsProps) {
   const headingRef = useRef<HTMLHeadingElement>(null)
-  useEffect(() => { headingRef.current?.focus() }, [])
+  useEffect(() => { headingRef.current?.focus({ preventScroll: true }) }, [])
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()

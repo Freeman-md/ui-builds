@@ -9,7 +9,7 @@ type BookingConfirmationProps = { booking: DemoBooking; onRestart: () => void }
 export function BookingConfirmation({ booking, onRestart }: BookingConfirmationProps) {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const reduceMotion = useReducedMotion()
-  useEffect(() => { headingRef.current?.focus() }, [])
+  useEffect(() => { headingRef.current?.focus({ preventScroll: true }) }, [])
   const date = new Date(`${booking.dateKey}T00:00:00Z`)
   const firstName = booking.name.split(/\s+/)[0]
 
