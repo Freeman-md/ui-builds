@@ -39,9 +39,33 @@
 .booking-summary-text p { margin-top: 2px; font-size: 12px; line-height: 1.6; font-variant-numeric: tabular-nums; }
 .booking-summary-text p span { color: var(--muted-foreground); }
 .booking-summary-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-.booking-summary-notice { flex-basis: 100%; color: var(--muted-foreground); font-size: 12px; line-height: 1.6; }
 @media (max-width: 479px) {
   .booking-summary { padding: 12px; }
   .booking-summary-actions { width: 100%; justify-content: flex-end; }
   .booking-summary-actions button { min-height: 36px; }
+}
+
+.booking-progress { margin-bottom: 20px; }
+.booking-progress ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.booking-progress li { color: var(--muted-foreground); font-size: 12px; }
+.booking-progress-line { display: block; height: 2px; margin-bottom: 10px; border-radius: 2px; background: var(--border); }
+.booking-progress li[data-reached="true"] .booking-progress-line { background: var(--foreground); }
+.booking-progress li[aria-current="step"] { color: var(--foreground); }
+.booking-progress button { cursor: pointer; text-align: left; }
+.booking-progress button:hover { color: var(--foreground); }
+.booking-progress button:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 2px; }
+.booking-details-form { display: grid; gap: 20px; padding: 28px; }
+.booking-details-form h1 { font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
+.booking-details-form h1:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 2px; }
+.booking-details-intro { margin-top: -12px; color: var(--muted-foreground); font-size: 13px; line-height: 1.6; }
+.booking-field { display: grid; gap: 8px; }
+.booking-field input { height: 36px; }
+.booking-field textarea { min-height: 88px; resize: vertical; }
+.booking-optional { color: var(--muted-foreground); font-weight: 400; }
+.booking-field-error { color: #fda4af; font-size: 12px; line-height: 1.5; }
+.booking-details-notice { color: var(--muted-foreground); font-size: 13px; line-height: 1.6; }
+@media (max-width: 479px) {
+  .booking-progress ol { gap: 8px; }
+  .booking-progress li { font-size: 11px; }
+  .booking-details-form { padding: 20px 16px; }
 }
