@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'motion/react'
 import { useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { BookingConfirmation } from './components/BookingConfirmation'
@@ -48,24 +49,26 @@ export default function BookingPage() {
         {flow.step === 'confirmation' && flow.confirmedBooking ? (
           <BookingConfirmation booking={flow.confirmedBooking} onRestart={handleRestart} />
         ) : flow.step === 'slots' ? <>
-          <BookingHeader weekStart={flow.weekStart} onWeekChange={flow.changeWeek} />
-          <WeeklySlots days={flow.days} selectedSlotId={flow.selectedSlotId} onSelectSlot={flow.selectSlot} />
+          <BookingHeader weekStart={flow.weekStart} direction={flow.weekDirection} onWeekChange={flow.changeWeek} />
+          <WeeklySlots days={flow.days} direction={flow.weekDirection} selectedSlotId={flow.selectedSlotId} onSelectSlot={flow.selectSlot} />
         </> : (
           <BookingDetails values={flow.details} errors={flow.errors} onChange={flow.updateDetails} onSubmit={flow.submitDetails} isBooking={flow.isBooking} bookingError={flow.bookingError} />
         )}
       </section>
-      {flow.selection && flow.step !== 'confirmation' ? (
-        <SelectedSlotSummary day={flow.selection.day} slot={flow.selection.slot}>
-          {/* Keep opening and submitting as distinct button instances. */}
-          {flow.step === 'slots' ? <>
-            <Button type="button" variant="ghost" onClick={handleClear}>Clear</Button>
-            <Button key="open-details" type="button" onClick={flow.openDetails}>Book it</Button>
-          </> : <>
-            <Button type="button" variant="ghost" onClick={handleBack} disabled={flow.isBooking}>Back</Button>
-            <Button key="confirm-booking" type="submit" form="booking-details-form" disabled={flow.isBooking}>{flow.isBooking ? 'Confirming…' : 'Confirm booking'}</Button>
-          </>}
-        </SelectedSlotSummary>
-      ) : null}
+      <AnimatePresence initial={false}>
+        {flow.selection && flow.step !== 'confirmation' ? (
+          <SelectedSlotSummary key="selected-slot-summary" day={flow.selection.day} slot={flow.selection.slot}>
+            {/* Keep opening and submitting as distinct button instances. */}
+            {flow.step === 'slots' ? <>
+              <Button type="button" variant="ghost" onClick={handleClear}>Clear</Button>
+              <Button key="open-details" type="button" onClick={flow.openDetails}>Book it</Button>
+            </> : <>
+              <Button type="button" variant="ghost" onClick={handleBack} disabled={flow.isBooking}>Back</Button>
+              <Button key="confirm-booking" type="submit" form="booking-details-form" disabled={flow.isBooking}>{flow.isBooking ? 'Confirming…' : 'Confirm booking'}</Button>
+            </>}
+          </SelectedSlotSummary>
+        ) : null}
+      </AnimatePresence>
       <p className="sr-only" role="status" aria-atomic="true">
         {flow.selection
           ? `Selected ${formatBookingDate(flow.selection.day.date)} at ${flow.selection.slot.time} · ${BOOKING_TIMEZONE}`

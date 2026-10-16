@@ -135,6 +135,14 @@ Confirmation and a stable frame:
 
 These fixture times are London wall times, not bookings or availability from an external calendar. The layout follows Cal.com's weekly demo; selection feedback, fixture schedules, and mobile scrolling are choices for this study.
 
+### Booking motion
+
+- Draw newly reached progress segments from left to right over 300ms; retract them when returning to an earlier step.
+- Fade the old week out for 100ms, then slide the new range and grid in over 200ms. Next enters from the right; previous enters from the left. Arrow controls stay fixed and rapid navigation resolves to the latest week.
+- Expand the selected-slot summary downward over 300ms, with a short fade/slide. Keep it open when choosing another time; collapse it upward on dismissal. Exiting content is hidden from assistive technology and cannot receive focus.
+
+Triage and Booking share the same easing and timings through `src/lib/motion.ts`. Reduced-motion preferences make these changes immediate. The shared frame remains the same size. [Summary during its reveal](notes/images/22-summary-entering.png); [settled layout](notes/images/22-booking-motion.png).
+
 ## Other Triage decisions
 
 - Create teams with a focused name dialog; new teams start with an empty inbox.

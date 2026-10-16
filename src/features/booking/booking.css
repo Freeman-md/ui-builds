@@ -48,8 +48,8 @@
 .booking-progress { margin-bottom: 20px; }
 .booking-progress ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .booking-progress li { color: var(--muted-foreground); font-size: 12px; }
-.booking-progress-line { display: block; height: 2px; margin-bottom: 10px; border-radius: 2px; background: var(--border); }
-.booking-progress li[data-reached="true"] .booking-progress-line { background: var(--foreground); }
+.booking-progress-line { position: relative; display: block; overflow: hidden; height: 2px; margin-bottom: 10px; border-radius: 2px; background: var(--border); }
+.booking-progress-fill { position: absolute; inset: 0; display: block; background: var(--foreground); transform-origin: left center; }
 .booking-progress li[aria-current="step"] { color: var(--foreground); }
 .booking-progress button { cursor: pointer; text-align: left; }
 .booking-progress button:hover { color: var(--foreground); }
@@ -88,3 +88,7 @@
 
 .booking-new-booking { margin-top: 24px; }
 @media (max-width: 479px) { .booking-new-booking { min-height: 36px; } }
+
+.booking-range-window { display: inline-grid; overflow: hidden; vertical-align: bottom; min-height: 1.5em; }
+.booking-range-window > span { grid-area: 1 / 1; }
+.booking-summary-motion { overflow: hidden; }

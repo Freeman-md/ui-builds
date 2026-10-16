@@ -8,6 +8,7 @@ export type BookingDetailsErrors = Partial<Record<'name' | 'email', string>>
 
 export function useBookingFlow() {
   const [weekStart, setWeekStart] = useState(getLondonDay)
+  const [weekDirection, setWeekDirection] = useState<-1 | 1>(1)
   // Keep fixture availability stable during the session while forms are edited.
   const [fixtureNow, setFixtureNow] = useState(() => new Date())
   const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null)
@@ -91,6 +92,7 @@ export function useBookingFlow() {
     pendingRequest.current?.abort()
     pendingRequest.current = null
     const now = new Date()
+    setWeekDirection(1)
     setFixtureNow(now)
     setWeekStart(getLondonDay(now))
     setSelectedSlotId(null)
@@ -103,12 +105,13 @@ export function useBookingFlow() {
   }
 
   function changeWeek(direction: -1 | 1) {
+    setWeekDirection(direction)
     setWeekStart((current) => shiftWeek(current, direction))
     clearSelection()
   }
 
   return {
-    weekStart, changeWeek, days, selectedSlotId, selection, selectSlot, clearSelection,
+    weekStart, weekDirection, changeWeek, days, selectedSlotId, selection, selectSlot, clearSelection,
     step, openDetails, backToSlots, details, errors, updateDetails, submitDetails, isBooking, bookingError, confirmedBooking, restartBooking,
   }
 }

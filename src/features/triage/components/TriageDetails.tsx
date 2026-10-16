@@ -1,3 +1,4 @@
+import { uiMotion } from '@/lib/motion'
 import { useEffect, useId, useImperativeHandle, useLayoutEffect, useRef, useState, type Ref, type RefObject } from 'react'
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from 'motion/react'
 import { ArrowLeft, Check, Copy, X } from 'lucide-react'
@@ -114,8 +115,8 @@ function TriageDetailBody({ item, titleId, direction, focusTitle, scrollRef }: {
       variants={slideVariants}
       initial={reducedMotion ? false : 'enter'}
       animate="visible"
-      exit={{ opacity: 0, transition: { duration: reducedMotion ? 0 : 0.1, ease: 'easeOut' } }}
-      transition={{ duration: reducedMotion ? 0 : 0.2, ease: [0.22, 0.61, 0.36, 1] }}
+      exit={{ opacity: 0, transition: { duration: reducedMotion ? 0 : uiMotion.exitDuration, ease: 'easeOut' } }}
+      transition={{ duration: reducedMotion ? 0 : uiMotion.enterDuration, ease: uiMotion.easeOut }}
     >
       <h2
         ref={titleRef}

@@ -1,3 +1,4 @@
+import { uiMotion } from '@/lib/motion'
 import { Inbox, Star } from 'lucide-react'
 import { useImperativeHandle, type Ref } from 'react'
 import { LayoutGroup, motion, useReducedMotion } from 'motion/react'
@@ -133,7 +134,7 @@ export function TriageInbox({
                           layoutId={reducedMotion ? undefined : 'active-row'}
                           className="triage-row-highlight"
                           aria-hidden="true"
-                          transition={{ duration: reducedMotion ? 0 : 0.3, ease: [0.22, 0.61, 0.36, 1] }}
+                          transition={{ duration: reducedMotion ? 0 : uiMotion.travelDuration, ease: uiMotion.easeOut }}
                         />
                       )}
                       <span className="block w-full min-w-0 truncate text-sm/5 font-medium">
