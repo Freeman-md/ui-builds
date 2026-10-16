@@ -26,3 +26,9 @@ export function formatWeekRange(start: Date, includeYear = false) {
   })
   return `${formatter.format(start)} – ${formatter.format(end)}`
 }
+
+export function formatBookingDate(date: Date) {
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  }).format(date)
+}

@@ -1,6 +1,6 @@
 # UI studies — an interaction showcase
 
-This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` has weekly sample availability and selectable times. Details and confirmation are still to come.
+This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` has weekly sample availability, selectable times, and a separate selected-slot summary. Details and confirmation are still to come.
 
 The repository directory and GitHub remote retain the original `triage-inbox` name. No package has been published.
 
@@ -81,8 +81,9 @@ Inspired by [Cal.com's custom booking demo](https://demo.cal.com/api-slots).
 - Group previous/next arrows with the date range; keep Europe/London as a fixed label on the right. There is no timezone picker in this slice.
 - Navigate in calendar days so daylight-saving changes do not shift the displayed week. Announce range updates without moving keyboard focus.
 - Show seven date columns with varied fictional 30-minute times; empty days say “No availability.” Past dates and elapsed London times are not offered.
-- Brighten slot borders on hover; mark the selected time with a checkmark and announce its date/time. Use compact rectangular buttons with visible keyboard focus.
-- Keep the header and slots on one continuous surface without an internal divider. A separate selection summary is planned; only the screen-reader announcement remains in this slice. Changing weeks clears selection.
+- Brighten slot borders on hover; prefix the selected time with a checkmark and announce its date/time. Use compact rectangular buttons with visible keyboard focus.
+- Keep the header and slots on one continuous surface without an internal divider. Show the selected date/time in a separate bordered container below it, with a circled calendar icon and a 12px gap.
+- Clear removes the summary and returns focus to the selected time. Changing weeks also clears selection. Book it currently shows demo-only feedback; it does not create an appointment or open details. On mobile, summary actions wrap beneath the date/time.
 - Keep columns readable on mobile through a keyboard-focusable horizontal scroll region and a visible scroll hint. Small screens wrap the timezone label as needed.
 
 | Before | After |
@@ -103,6 +104,14 @@ Slot refinement:
 | --- | --- |
 | ![Larger slots and internal dividers](notes/images/17-before-slot-polish.png) | ![Compact slots with selection checkmark and continuous surface](notes/images/17-slot-polish.png) |
 
+Selected-slot summary:
+
+| Before | After |
+| --- | --- |
+| ![Selection without a separate summary](notes/images/18-before-slot-summary.png) | ![Selected date and time with Clear and Book it](notes/images/18-slot-summary.png) |
+
+[Summary on mobile](notes/images/18-slot-summary-mobile.png).
+
 These fixture times are London wall times, not bookings or availability from an external calendar. The layout follows Cal.com's weekly demo; selection feedback, fixture schedules, and mobile scrolling are choices for this study.
 
 ## Other Triage decisions
@@ -115,7 +124,7 @@ These fixture times are London wall times, not bookings or availability from an 
 ## App structure
 
 - `src/features/triage/`: inbox components, hooks, fixtures, shortcuts, and motion styles.
-- `src/features/booking/`: week header, seven-day slot grid, fixture availability, calendar-day helpers, and selection state.
+- `src/features/booking/`: week header, seven-day slot grid, selected-slot summary, fixture availability, calendar-day helpers, and selection state.
 - `src/components/ui/`: shared shadcn primitives. React component filenames use PascalCase; hooks and utilities retain their existing naming convention.
 - `src/index.css`: shared theme and accessibility defaults.
 - `src/App.tsx` and `src/showcase.css`: showcase navigation and study pages.

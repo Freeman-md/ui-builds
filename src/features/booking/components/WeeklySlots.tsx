@@ -1,12 +1,9 @@
 import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { BOOKING_TIMEZONE } from '../week'
-import type { BookingDay, BookingSlot } from '../data/sample-availability'
+import { BOOKING_TIMEZONE, formatBookingDate } from '../week'
+import type { BookingDay } from '../data/sample-availability'
 
 const weekdayFormat = new Intl.DateTimeFormat('en-GB', { timeZone: 'UTC', weekday: 'short' })
-const fullDateFormat = new Intl.DateTimeFormat('en-GB', {
-  timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-})
 
 type WeeklySlotsProps = {
   days: BookingDay[]
@@ -15,19 +12,13 @@ type WeeklySlotsProps = {
 }
 
 export function WeeklySlots({ days, selectedSlotId, onSelectSlot }: WeeklySlotsProps) {
-  let selection: { day: BookingDay; slot: BookingSlot } | undefined
-  for (const day of days) {
-    const slot = day.slots.find((slot) => slot.id === selectedSlotId)
-    if (slot) selection = { day, slot }
-  }
-
   return (
     <>
       <p className="booking-scroll-hint" id="booking-scroll-hint">Scroll horizontally to see all seven days.</p>
       <div className="booking-slots-scroll" role="region" aria-label="Weekly available times" aria-describedby="booking-scroll-hint" tabIndex={0}>
         <div className="booking-slots-grid">
           {days.map((day) => (
-            <section className="booking-day" key={day.dateKey} aria-label={fullDateFormat.format(day.date)}>
+            <section className="booking-day" key={day.dateKey} aria-label={formatBookingDate(day.date)}>
               <h2 className="booking-day-heading">
                 <time dateTime={day.dateKey}>{weekdayFormat.format(day.date)} <span>{day.date.getUTCDate()}</span></time>
               </h2>
@@ -38,11 +29,11 @@ export function WeeklySlots({ days, selectedSlotId, onSelectSlot }: WeeklySlotsP
                     variant="outline"
                     className="booking-slot"
                     aria-pressed={slot.id === selectedSlotId}
-                    aria-label={`${fullDateFormat.format(day.date)} at ${slot.time}, ${BOOKING_TIMEZONE}`}
+                    aria-label={`${formatBookingDate(day.date)} at ${slot.time}, ${BOOKING_TIMEZONE}`}
                     onClick={() => onSelectSlot(slot.id)}
                   >
-                    <span>{slot.time}</span>
                     {slot.id === selectedSlotId ? <Check className="size-3" aria-hidden="true" /> : null}
+                    <span>{slot.time}</span>
                   </Button>
                 ))}
               </div>
@@ -50,11 +41,6 @@ export function WeeklySlots({ days, selectedSlotId, onSelectSlot }: WeeklySlotsP
           ))}
         </div>
       </div>
-      <p className="sr-only" role="status" aria-atomic="true">
-        {selection
-          ? `Selected ${fullDateFormat.format(selection.day.date)} at ${selection.slot.time} · ${BOOKING_TIMEZONE}`
-          : 'Select an available time.'}
-      </p>
     </>
   )
 }

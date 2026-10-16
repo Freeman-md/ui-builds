@@ -30,3 +30,18 @@
   .booking-week-controls { gap: 12px; }
   .booking-timezone { margin-left: auto; }
 }
+
+.booking-summary { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 12px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
+.booking-summary-details { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.booking-summary-icon { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; color: var(--muted-foreground); background: var(--muted); }
+.booking-summary-text { min-width: 0; }
+.booking-summary-text h2 { font-size: 13px; font-weight: 500; line-height: 1.5; }
+.booking-summary-text p { margin-top: 2px; font-size: 12px; line-height: 1.6; font-variant-numeric: tabular-nums; }
+.booking-summary-text p span { color: var(--muted-foreground); }
+.booking-summary-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.booking-summary-notice { flex-basis: 100%; color: var(--muted-foreground); font-size: 12px; line-height: 1.6; }
+@media (max-width: 479px) {
+  .booking-summary { padding: 12px; }
+  .booking-summary-actions { width: 100%; justify-content: flex-end; }
+  .booking-summary-actions button { min-height: 36px; }
+}
