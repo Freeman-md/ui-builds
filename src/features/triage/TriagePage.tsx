@@ -1,4 +1,4 @@
-import { TriageWorkspace } from './components/triage-workspace'
+import { TriageWorkspace } from './components/TriageWorkspace'
 import './triage.css'
 
 export default function TriagePage() {

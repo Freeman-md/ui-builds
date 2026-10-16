@@ -36,7 +36,6 @@
 .showcase-credit { margin-top: auto; color: var(--muted-foreground); font-size: 12px; }
 .showcase-footnote { color: var(--muted-foreground); margin-top: 28px; font-size: 12px; line-height: 1.6; }
 .showcase-triage { display: grid; min-height: calc(100svh - 73px); place-items: center; padding: 24px; }
-.showcase-steps { display: flex; flex-wrap: wrap; gap: 24px; list-style: decimal inside; margin: 40px 0; font-size: 14px; color: var(--muted-foreground); }
 .showcase-text-link { font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
 @media (min-width: 640px) { .showcase-triage { padding: 40px; } }
 @media (max-width: 639px) { .showcase-grid { grid-template-columns: 1fr; margin-top: 36px; } .showcase-card { padding: 24px; } }

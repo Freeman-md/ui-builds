@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { Plus } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/Button'
 import {
   Dialog,
   DialogClose,
@@ -8,10 +8,10 @@ import {
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+} from '@/components/ui/Dialog'
+import { Input } from '@/components/ui/Input'
+import { Label } from '@/components/ui/Label'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 
 type CreateTeamDialogProps = {
   teamNames: string[]

@@ -1,12 +1,12 @@
 import { Inbox, Star } from 'lucide-react'
 import { useImperativeHandle, type Ref } from 'react'
 import { LayoutGroup, motion, useReducedMotion } from 'motion/react'
-import { TriagePeek } from '@/features/triage/components/triage-peek'
-import { Popover, PopoverTrigger } from '@/components/ui/popover'
+import { TriagePeek } from '@/features/triage/components/TriagePeek'
+import { Popover, PopoverTrigger } from '@/components/ui/Popover'
 import { useTriagePeek } from '@/features/triage/hooks/use-triage-peek'
-import { Item, ItemGroup } from '@/components/ui/item'
-import { Toggle } from '@/components/ui/toggle'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Item, ItemGroup } from '@/components/ui/Item'
+import { Toggle } from '@/components/ui/Toggle'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip'
 import type { Gig } from '@/features/triage/data/sample-gigs'
 
 export type TriageInboxHandle = {

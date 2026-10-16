@@ -1,4 +1,4 @@
-import { PopoverContent, PopoverDescription, PopoverTitle } from '@/components/ui/popover'
+import { PopoverContent, PopoverDescription, PopoverTitle } from '@/components/ui/Popover'
 import type { Gig } from '@/features/triage/data/sample-gigs'
 
 type TriagePeekProps = {

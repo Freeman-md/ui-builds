@@ -1,0 +1,17 @@
+.booking-study { width: min(800px, 100%); }
+.booking-shell { overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
+.booking-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px 20px; padding: 16px; border-bottom: 1px solid var(--border); }
+.booking-week-controls { display: flex; align-items: center; gap: 16px; }
+.booking-week-buttons { display: flex; gap: 6px; }
+.booking-week-range { font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.booking-timezone { padding: 3px 6px; border-radius: 4px; background: var(--muted); color: var(--muted-foreground); font-family: ui-monospace, monospace; font-size: 12px; }
+.booking-body { height: 200px; }
+.booking-caption { margin-top: 16px; color: var(--muted-foreground); text-align: center; font-size: 12px; line-height: 1.6; }
+.booking-caption a { text-decoration: underline; text-underline-offset: 3px; }
+.booking-caption a:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+@media (max-width: 479px) {
+  .booking-week-buttons button { width: 36px; height: 36px; }
+  .booking-header { padding: 12px; }
+  .booking-week-controls { gap: 12px; }
+  .booking-timezone { margin-left: auto; }
+}

@@ -1,12 +1,14 @@
 import { lazy, Suspense } from 'react'
-import { TooltipProvider } from '@/components/ui/tooltip'
+import { TooltipProvider } from '@/components/ui/Tooltip'
 import './showcase.css'
 
-const TriagePage = lazy(() => import('@/features/triage/triage-page'))
+const TriagePage = lazy(() => import('@/features/triage/TriagePage'))
+
+const BookingPage = lazy(() => import('@/features/booking/BookingPage'))
 
 const studies = [
   { href: '/triage', number: '01', title: 'Triage inbox', status: 'Interactive', description: 'An inbox that opens up. Peek, directional motion, and keyboard navigation.', inspiration: 'Inspired by Linear' },
-  { href: '/booking', number: '02', title: 'Project discussion', status: 'In study', description: 'A considered booking flow. Choose a time, share the context, confirm the conversation.', inspiration: 'Inspired by Cal.com' },
+  { href: '/booking', number: '02', title: 'Project discussion', status: 'In progress', description: 'A considered booking flow. Choose a time, share the context, confirm the conversation.', inspiration: 'Inspired by Cal.com' },
 ]
 
 function App() {
@@ -26,9 +28,11 @@ function App() {
           <a href="/booking" aria-current={isBooking ? 'page' : undefined}>Booking</a>
         </nav>
       </header>
-      {isTriage ? (
-        <main id="main" tabIndex={-1} className="showcase-triage" aria-label="Triage inbox">
-          <Suspense fallback={<p role="status">Loading Triage…</p>}><TriagePage /></Suspense>
+      {isTriage || isBooking ? (
+        <main id="main" tabIndex={-1} className="showcase-triage" aria-label={isTriage ? 'Triage inbox' : 'Booking study'}>
+          <Suspense fallback={<p role="status">Loading study…</p>}>
+            {isTriage ? <TriagePage /> : <BookingPage />}
+          </Suspense>
         </main>
       ) : (
         <main id="main" tabIndex={-1} className="showcase-overview">
@@ -47,14 +51,6 @@ function App() {
               ))}
             </div>
             <p className="showcase-footnote">Interactive studies with fictional data. No real bookings or inbox integrations.</p>
-          </> : isBooking ? <>
-            <p className="showcase-eyebrow">Study 02 · In study</p>
-            <h1>Project discussion.</h1>
-            <p className="showcase-intro">A 30-minute booking interaction inspired by Cal.com. Reference review comes first; the booking demo is not built yet.</p>
-            <ol className="showcase-steps" aria-label="Proposed booking flow">
-              <li>Choose a slot</li><li>Enter details</li><li>Confirmation</li>
-            </ol>
-            <a className="showcase-text-link" href="https://demo.cal.com/embed-inline">Explore the Cal.com inspiration ↗</a>
           </> : <>
             <p className="showcase-eyebrow">Page not found</p>
             <h1>No study here yet.</h1>

@@ -1,5 +1,5 @@
 import type { RefObject } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/Dialog'
 
 const shortcuts = [
   ['↑ ↓', 'Navigate rows in the list; update Peek or open details.'],

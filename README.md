@@ -1,6 +1,6 @@
 # UI studies — an interaction showcase
 
-This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` is a clearly labelled study placeholder. Booking has not been implemented yet.
+This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` starts the booking study with a working week header. Slots and the booking steps are still to come.
 
 The repository directory and GitHub remote retain the original `triage-inbox` name. No package has been published.
 
@@ -73,10 +73,31 @@ I used React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, an
 
 The footer’s keycaps use native `<kbd>` elements. Team state, selection/focus restoration, and Peek behavior live in focused hooks. Both sample teams reuse the same inbox and detail components with different fixture data.
 
+## Booking — week header
+
+Inspired by [Cal.com's custom booking demo](https://demo.cal.com/api-slots).
+
+- Start with a rolling seven-day range beginning on today's date in London, matching the reference layout.
+- Group previous/next arrows with the date range; keep Europe/London as a fixed label on the right. There is no timezone picker in this slice.
+- Navigate in calendar days so daylight-saving changes do not shift the displayed week. Announce range updates without moving keyboard focus.
+- Keep the body blank until the weekly slots are built. Small screens wrap the timezone label as needed.
+
+| Before | After |
+| --- | --- |
+| ![Booking placeholder](notes/images/15-before-booking-header.png) | ![Working week header](notes/images/15-booking-header.png) |
+
+## Other Triage decisions
+
+- Create teams with a focused name dialog; new teams start with an empty inbox.
+- Keep the heading and team strip fixed while the two-line item list scrolls.
+- Keep the item identifier muted above the Peek title.
+- Keep state and interaction logic in focused hooks, separate from presentation.
+
 ## App structure
 
 - `src/features/triage/`: inbox components, hooks, fixtures, shortcuts, and motion styles.
-- `src/components/ui/`: shared shadcn primitives.
+- `src/features/booking/`: week header, calendar-day helpers, and navigation state.
+- `src/components/ui/`: shared shadcn primitives. React component filenames use PascalCase; hooks and utilities retain their existing naming convention.
 - `src/index.css`: shared theme and accessibility defaults.
 - `src/App.tsx` and `src/showcase.css`: showcase navigation and study pages.
 
@@ -92,9 +113,9 @@ npm run dev
 ```
 
 ```sh
-npm test        # Shortcut behavior and scoping (Node with TypeScript support)
+npm test        # Shortcut behavior and booking date boundaries
 npm run build   # Type checking and production build
 npm run lint
 ```
 
-The [design notebook](notes/design-communication.md) records the original requests, concise versions, and results from each iteration. The screenshots above show successive stages of the build.
+Design decisions and before/after images live in this README for each study. The earlier communication notebook has been removed from the current tree; existing Git history has not been rewritten.
