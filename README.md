@@ -81,7 +81,8 @@ Inspired by [Cal.com's custom booking demo](https://demo.cal.com/api-slots).
 - Group previous/next arrows with the date range; keep Europe/London as a fixed label on the right. There is no timezone picker in this slice.
 - Navigate in calendar days so daylight-saving changes do not shift the displayed week. Announce range updates without moving keyboard focus.
 - Show seven date columns with varied fictional 30-minute times; empty days say “No availability.” Past dates and elapsed London times are not offered.
-- Highlight the selected time and announce its date/time. Changing weeks clears selection; details remain for a later slice.
+- Brighten slot borders on hover; mark the selected time with a checkmark and announce its date/time. Use compact rectangular buttons with visible keyboard focus.
+- Keep the header and slots on one continuous surface without an internal divider. A separate selection summary is planned; only the screen-reader announcement remains in this slice. Changing weeks clears selection.
 - Keep columns readable on mobile through a keyboard-focusable horizontal scroll region and a visible scroll hint. Small screens wrap the timezone label as needed.
 
 | Before | After |
@@ -94,7 +95,13 @@ Weekly slots:
 | --- | --- |
 | ![Header only](notes/images/16-before-weekly-slots.png) | ![Seven daily availability columns](notes/images/16-weekly-slots.png) |
 
-[Mobile view](notes/images/16-weekly-slots-mobile.png).
+[Mobile view of the initial grid](notes/images/16-weekly-slots-mobile.png).
+
+Slot refinement:
+
+| Before | After |
+| --- | --- |
+| ![Larger slots and internal dividers](notes/images/17-before-slot-polish.png) | ![Compact slots with selection checkmark and continuous surface](notes/images/17-slot-polish.png) |
 
 These fixture times are London wall times, not bookings or availability from an external calendar. The layout follows Cal.com's weekly demo; selection feedback, fixture schedules, and mobile scrolling are choices for this study.
 

@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { BOOKING_TIMEZONE } from '../week'
 import type { BookingDay, BookingSlot } from '../data/sample-availability'
@@ -40,7 +41,8 @@ export function WeeklySlots({ days, selectedSlotId, onSelectSlot }: WeeklySlotsP
                     aria-label={`${fullDateFormat.format(day.date)} at ${slot.time}, ${BOOKING_TIMEZONE}`}
                     onClick={() => onSelectSlot(slot.id)}
                   >
-                    {slot.time}
+                    <span>{slot.time}</span>
+                    {slot.id === selectedSlotId ? <Check className="size-3" aria-hidden="true" /> : null}
                   </Button>
                 ))}
               </div>
@@ -48,7 +50,7 @@ export function WeeklySlots({ days, selectedSlotId, onSelectSlot }: WeeklySlotsP
           ))}
         </div>
       </div>
-      <p className="booking-selection" role="status" aria-atomic="true">
+      <p className="sr-only" role="status" aria-atomic="true">
         {selection
           ? `Selected ${fullDateFormat.format(selection.day.date)} at ${selection.slot.time} · ${BOOKING_TIMEZONE}`
           : 'Select an available time.'}
