@@ -1,14 +1,14 @@
 import { useRef, useState, type KeyboardEvent } from 'react'
-import { TeamHeader } from '@/components/triage/team-header'
-import { TriageDetails, type TriageDetailsHandle } from '@/components/triage/triage-details'
-import { TriageInbox, type TriageInboxHandle } from '@/components/triage/triage-inbox'
-import { TriageShortcutDialog, TriageShortcutFooter } from '@/components/triage/triage-shortcuts'
+import { TeamHeader } from '@/features/triage/components/team-header'
+import { TriageDetails, type TriageDetailsHandle } from '@/features/triage/components/triage-details'
+import { TriageInbox, type TriageInboxHandle } from '@/features/triage/components/triage-inbox'
+import { TriageShortcutDialog, TriageShortcutFooter } from '@/features/triage/components/triage-shortcuts'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
-import { getTeamGigs } from '@/data/sample-gigs'
-import { useTeams } from '@/hooks/use-teams'
-import { useTriageSelection } from '@/hooks/use-triage-selection'
-import { createTriageShortcutHandler } from '@/lib/triage-shortcuts'
+import { getTeamGigs } from '@/features/triage/data/sample-gigs'
+import { useTeams } from '@/features/triage/hooks/use-teams'
+import { useTriageSelection } from '@/features/triage/hooks/use-triage-selection'
+import { createTriageShortcutHandler } from '@/features/triage/triage-shortcuts'
 
 export function TriageWorkspace() {
   const { teams, selectedTeam, selectTeam, createTeam, setTeamStarred } = useTeams()

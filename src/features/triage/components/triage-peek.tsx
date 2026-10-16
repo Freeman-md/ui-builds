@@ -1,5 +1,5 @@
 import { PopoverContent, PopoverDescription, PopoverTitle } from '@/components/ui/popover'
-import type { Gig } from '@/data/sample-gigs'
+import type { Gig } from '@/features/triage/data/sample-gigs'
 
 type TriagePeekProps = {
   item: Gig | undefined

@@ -1,4 +1,10 @@
-# Triage inbox — a UI study
+# UI studies — an interaction showcase
+
+This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` is a clearly labelled study placeholder. Booking has not been implemented yet.
+
+The repository directory and GitHub remote retain the original `triage-inbox` name. No package has been published.
+
+## Triage inbox
 
 I rebuilt Linear’s [Triage](https://linear.app/docs/triage) and [Peek](https://linear.app/docs/peek) interactions to practise making design decisions and communicating them precisely. I started with a blank container, then refined the layout, previews, motion, and keyboard behavior one step at a time.
 
@@ -66,6 +72,17 @@ I used React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, an
 | Button, Badge | Detail actions and properties |
 
 The footer’s keycaps use native `<kbd>` elements. Team state, selection/focus restoration, and Peek behavior live in focused hooks. Both sample teams reuse the same inbox and detail components with different fixture data.
+
+## App structure
+
+- `src/features/triage/`: inbox components, hooks, fixtures, shortcuts, and motion styles.
+- `src/components/ui/`: shared shadcn primitives.
+- `src/index.css`: shared theme and accessibility defaults.
+- `src/App.tsx` and `src/showcase.css`: showcase navigation and study pages.
+
+Study links use ordinary browser navigation; leaving a study resets its session-only state. Triage loads separately from the overview. A production host must serve `index.html` for `/triage`, `/booking`, and other app paths.
+
+The [Booking reference review](notes/booking-reference.md) distinguishes observed Cal.com behavior from proposed choices. Reuse can be tested with a local package using `npm pack` and installing the resulting tarball in another app; public npm publication is a later step.
 
 ## Run locally
 

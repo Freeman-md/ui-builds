@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
-import type { Gig } from '@/data/sample-gigs'
+import type { Gig } from '@/features/triage/data/sample-gigs'
 
 type Preview = { itemId: string; keyboard: boolean }
 

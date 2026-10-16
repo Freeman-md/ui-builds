@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createTriageShortcutHandler } from '../src/lib/triage-shortcuts.ts'
+import { createTriageShortcutHandler } from '../src/features/triage/triage-shortcuts.ts'
 
 // Only the event boundary is mocked: the production shortcut handler runs intact.
 function setup() {

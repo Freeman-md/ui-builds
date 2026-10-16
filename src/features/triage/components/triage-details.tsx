@@ -4,7 +4,7 @@ import { ArrowLeft, Check, Copy, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import type { Gig } from '@/data/sample-gigs'
+import type { Gig } from '@/features/triage/data/sample-gigs'
 
 export type TriageDetailsHandle = { copyIdentifier: () => void }
 

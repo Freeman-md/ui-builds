@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import type { Gig } from '@/data/sample-gigs'
+import type { Gig } from '@/features/triage/data/sample-gigs'
 
 type Selection = { teamId: string; itemId: string; open: boolean; focusDetails: boolean; direction: number }
 

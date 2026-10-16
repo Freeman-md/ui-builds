@@ -305,3 +305,23 @@ Before:
 After (settled state):
 
 ![After: Peek glides to the highlighted row](images/13-peek-flow.jpg)
+
+## 14. Turn the inbox project into a showcase
+
+**Original wording (verbatim excerpt)**
+
+> Go ahead and turn it into the showcase app, keeping Triage intact. Then inspect the inline Cal.com demo and show me the interaction breakdown before building Booking.
+
+**Precise version**
+
+> Add a showcase home, preserve Triage at /triage, share UI primitives, and isolate its feature code. Reserve /booking as a study placeholder. Inspect both Cal.com demos and separate observations from proposed behavior before implementing Booking.
+
+**Result**
+
+Added showcase navigation, home, and Booking placeholder; moved Triage components, hooks, fixtures, shortcuts, and CSS into its feature folder. No new dependencies. Build, lint, and four tests pass; checked desktop keyboard Peek/details, mobile inbox/details, and placeholder refresh. Reference findings and gaps are in [Booking review](booking-reference.md). Commit: `feat(showcase): organize interaction studies and preserve triage`.
+
+![Before: standalone Triage](images/14-before-showcase.png)
+
+![After: showcase overview](images/14-showcase.png)
+
+![After: Triage in its own study page](images/14-triage.png)

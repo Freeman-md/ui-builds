@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { ChevronRight, CircleDashed, PanelLeft } from 'lucide-react'
-import { CreateTeamDialog } from '@/components/triage/create-team-dialog'
+import { CreateTeamDialog } from '@/features/triage/components/create-team-dialog'
 import { TabsList, TabsTrigger } from '@/components/ui/tabs'
-import type { Team } from '@/hooks/use-teams'
+import type { Team } from '@/features/triage/hooks/use-teams'
 
 type TeamHeaderProps = {
   teams: Team[]
