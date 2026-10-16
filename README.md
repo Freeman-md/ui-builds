@@ -59,7 +59,7 @@ Inspired by [Cal.com’s custom slots demo](https://demo.cal.com/api-slots). Ope
 - **Make direction clear.** Fade the old week or step out for 100ms, then slide the next in over 200ms. Forward enters from the right; Back enters from the left. Keep the frame and week controls steady.
 - **Reveal the summary downward.** Expand, fade, and slide it in over 300ms; reverse on dismissal. Keep the card open when changing slots.
 - **Animate only changed values.** Flip the summary time vertically; fade its date only when the day changes. Keep the icon, timezone, and card anchored.
-- **Give confirmation reading time.** Draw the checkmark, then reveal the heading, personal confirmation message, meeting title, duration/host, date, time/timezone, and restart button in order. Pause **1.5 seconds after each reveal**. Only duration/host and date typewrite; the remaining text flips in, with a slight rise on the confirmation message.
+- **Give confirmation reading time.** Draw the checkmark, then reveal the heading, personal confirmation message, meeting title, duration/host, date, time/timezone, and restart button in order. Pause **0.5 seconds after each reveal**. Only duration/host and date typewrite; the remaining text flips in, with a slight rise on the confirmation message.
 - **Soften validation.** Expand and fade inline errors in; collapse and fade them out without resizing the outer frame.
 - **Keep motion accessible.** Reserve the final text layout, expose complete text to screen readers, and make exiting content unfocusable. Reduced motion removes delays and effects; focusing the restart button reveals the remaining confirmation immediately.
 
