@@ -88,7 +88,7 @@ Inspired by [Cal.com's custom booking demo](https://demo.cal.com/api-slots).
 - Use three slim progress segments above the main surface, with the active number and label in white. The first step is navigable from details; all three segments complete only after simulated success.
 - Required-name and native email validation show linked inline errors and focus the first invalid field. Valid submission starts a 700ms local simulation, showing “Confirming…” and preventing duplicate submissions, editing, or Back navigation while pending. Rejections keep the details available for retry; leaving the page cancels the pending operation.
 - Keep all steps in the same frame: 416px tall on desktop and 400px on mobile, with internal scrolling for longer content and validation errors. Width follows the existing responsive container.
-- After success, focus Confirmation and draw a small circle/check with Motion. Show a personal demo confirmation, meeting title, host, duration, date, time, and timezone; retain the separate slot summary below. Reduced-motion preferences show the finished icon immediately. No real appointment or email is created.
+- After success, focus Confirmation and draw a restrained 72px circle/check with Motion. Show a personal demo confirmation, meeting title, host, duration, date, time, and timezone; hide the separate slot summary once confirmed. A white “Make a new booking” button resets the week, selection, inputs, errors, and confirmation, then restores focus to availability. Reduced-motion preferences show the finished icon immediately. No real appointment or email is created.
 - Keep columns readable on mobile through a keyboard-focusable horizontal scroll region and a visible scroll hint. Small screens wrap the timezone label as needed.
 
 | Before | After |
@@ -129,9 +129,9 @@ Confirmation and a stable frame:
 
 | Before | After |
 | --- | --- |
-| ![Details before simulated confirmation](notes/images/20-before-confirmation.png) | ![Completed progress and animated-check confirmation](notes/images/20-confirmation.png) |
+| ![Confirmation with the duplicated slot summary](notes/images/21-before-confirmation-restart.png) | ![Confirmation with a restart action and no duplicated summary](notes/images/21-confirmation-restart.png) |
 
-[Confirmation on mobile](notes/images/20-confirmation-mobile.png).
+[Confirmation on mobile](notes/images/21-confirmation-restart-mobile.png).
 
 These fixture times are London wall times, not bookings or availability from an external calendar. The layout follows Cal.com's weekly demo; selection feedback, fixture schedules, and mobile scrolling are choices for this study.
 

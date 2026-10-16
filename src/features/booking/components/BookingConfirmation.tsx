@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react'
+import { Button } from '@/components/ui/Button'
 import { motion, useReducedMotion } from 'motion/react'
 import type { DemoBooking } from '../simulate-booking'
 import { formatBookingDate } from '../week'
 
-type BookingConfirmationProps = { booking: DemoBooking }
+type BookingConfirmationProps = { booking: DemoBooking; onRestart: () => void }
 
-export function BookingConfirmation({ booking }: BookingConfirmationProps) {
+export function BookingConfirmation({ booking, onRestart }: BookingConfirmationProps) {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const reduceMotion = useReducedMotion()
   useEffect(() => { headingRef.current?.focus() }, [])
@@ -27,6 +28,7 @@ export function BookingConfirmation({ booking }: BookingConfirmationProps) {
         <p><time dateTime={booking.dateKey}>{formatBookingDate(date)}</time></p>
         <p>{booking.time} · {booking.meeting.timezone}</p>
       </div>
+      <Button type="button" className="booking-new-booking" onClick={onRestart}>Make a new booking</Button>
     </div>
   )
 }

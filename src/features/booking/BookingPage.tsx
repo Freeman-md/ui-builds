@@ -13,12 +13,16 @@ import './booking.css'
 export default function BookingPage() {
   const flow = useBookingFlow()
   const availabilityRef = useRef<HTMLElement>(null)
-  const restoreSlotFocus = useRef(false)
+  const restoreAvailabilityFocus = useRef(false)
 
   useEffect(() => {
-    if (flow.step === 'slots' && restoreSlotFocus.current) {
-      availabilityRef.current?.querySelector<HTMLButtonElement>('.booking-slot[aria-pressed="true"]')?.focus()
-      restoreSlotFocus.current = false
+    if (flow.step === 'slots' && restoreAvailabilityFocus.current) {
+      const container = availabilityRef.current
+      const target = container?.querySelector<HTMLButtonElement>('.booking-slot[aria-pressed="true"]')
+        ?? container?.querySelector<HTMLButtonElement>('.booking-slot')
+        ?? container?.querySelector<HTMLButtonElement>('.booking-week-buttons button')
+      target?.focus()
+      restoreAvailabilityFocus.current = false
     }
   }, [flow.step])
 
@@ -28,8 +32,13 @@ export default function BookingPage() {
   }
 
   function handleBack() {
-    restoreSlotFocus.current = true
+    restoreAvailabilityFocus.current = true
     flow.backToSlots()
+  }
+
+  function handleRestart() {
+    restoreAvailabilityFocus.current = true
+    flow.restartBooking()
   }
 
   return (
@@ -37,7 +46,7 @@ export default function BookingPage() {
       <BookingProgress step={flow.step} onBack={handleBack} isBooking={flow.isBooking} />
       <section ref={availabilityRef} className="booking-shell booking-step-shell" aria-label="Project discussion booking demo">
         {flow.step === 'confirmation' && flow.confirmedBooking ? (
-          <BookingConfirmation booking={flow.confirmedBooking} />
+          <BookingConfirmation booking={flow.confirmedBooking} onRestart={handleRestart} />
         ) : flow.step === 'slots' ? <>
           <BookingHeader weekStart={flow.weekStart} onWeekChange={flow.changeWeek} />
           <WeeklySlots days={flow.days} selectedSlotId={flow.selectedSlotId} onSelectSlot={flow.selectSlot} />
@@ -45,10 +54,10 @@ export default function BookingPage() {
           <BookingDetails values={flow.details} errors={flow.errors} onChange={flow.updateDetails} onSubmit={flow.submitDetails} isBooking={flow.isBooking} bookingError={flow.bookingError} />
         )}
       </section>
-      {flow.selection ? (
+      {flow.selection && flow.step !== 'confirmation' ? (
         <SelectedSlotSummary day={flow.selection.day} slot={flow.selection.slot}>
           {/* Keep opening and submitting as distinct button instances. */}
-          {flow.step === 'confirmation' ? <span className="booking-summary-complete">Confirmed</span> : flow.step === 'slots' ? <>
+          {flow.step === 'slots' ? <>
             <Button type="button" variant="ghost" onClick={handleClear}>Clear</Button>
             <Button key="open-details" type="button" onClick={flow.openDetails}>Book it</Button>
           </> : <>
