@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local design communication; publish condensed decisions in README.md only
+/notes/*design-communication*.md

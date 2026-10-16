@@ -118,4 +118,4 @@ npm run build   # Type checking and production build
 npm run lint
 ```
 
-Design decisions and before/after images live in this README for each study. The earlier communication notebook has been removed from the current tree; existing Git history has not been rewritten.
+Design decisions and before/after images live in this README for each study. Detailed communication notebooks stay local and Git-ignored; they guide these condensed public summaries.
