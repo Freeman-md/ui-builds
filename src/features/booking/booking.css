@@ -38,10 +38,10 @@
 .booking-summary-text h2 { font-size: 13px; font-weight: 500; line-height: 1.5; }
 .booking-summary-text p { margin-top: 2px; font-size: 12px; line-height: 1.6; font-variant-numeric: tabular-nums; }
 .booking-summary-text p span { color: var(--muted-foreground); }
-.booking-summary-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.booking-summary-actions { display: flex; min-height: 32px; align-items: center; gap: 8px; margin-left: auto; }
 @media (max-width: 479px) {
   .booking-summary { padding: 12px; }
-  .booking-summary-actions { width: 100%; justify-content: flex-end; }
+  .booking-summary-actions { width: 100%; min-height: 36px; justify-content: flex-end; }
   .booking-summary-actions button { min-height: 36px; }
 }
 
@@ -68,4 +68,21 @@
   .booking-progress ol { gap: 8px; }
   .booking-progress li { font-size: 11px; }
   .booking-details-form { padding: 20px 16px; }
+}
+
+/* Step content scrolls inside one fixed frame, including validation and loading. */
+.booking-step-shell { height: 416px; overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; }
+.booking-details-fields { display: grid; gap: 20px; min-width: 0; }
+.booking-progress button:disabled { cursor: default; opacity: .5; }
+.booking-confirmation { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100%; padding: 28px; text-align: center; }
+.booking-success-icon { width: 64px; height: 64px; margin-bottom: 20px; color: var(--foreground); flex-shrink: 0; }
+.booking-confirmation h1 { font-size: 20px; font-weight: 500; letter-spacing: -.025em; }
+.booking-confirmation h1:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 2px; }
+.booking-confirmation-message { margin-top: 10px; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.booking-confirmation-meeting { margin-top: 24px; color: var(--muted-foreground); font-size: 13px; line-height: 1.8; }
+.booking-confirmation-meeting h2 { color: var(--foreground); font-weight: 500; }
+.booking-summary-complete { color: var(--muted-foreground); font-size: 12px; }
+@media (max-width: 479px) {
+  .booking-step-shell { height: 400px; }
+  .booking-confirmation { padding: 24px 16px; }
 }

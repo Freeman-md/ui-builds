@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
+import { BookingConfirmation } from './components/BookingConfirmation'
 import { BookingDetails } from './components/BookingDetails'
 import { BookingProgress } from './components/BookingProgress'
 import { SelectedSlotSummary } from './components/SelectedSlotSummary'
@@ -33,24 +34,26 @@ export default function BookingPage() {
 
   return (
     <div className="booking-study">
-      <BookingProgress step={flow.step} onBack={handleBack} />
-      <section ref={availabilityRef} className="booking-shell" aria-label="Project discussion booking demo">
-        {flow.step === 'slots' ? <>
+      <BookingProgress step={flow.step} onBack={handleBack} isBooking={flow.isBooking} />
+      <section ref={availabilityRef} className="booking-shell booking-step-shell" aria-label="Project discussion booking demo">
+        {flow.step === 'confirmation' && flow.confirmedBooking ? (
+          <BookingConfirmation booking={flow.confirmedBooking} />
+        ) : flow.step === 'slots' ? <>
           <BookingHeader weekStart={flow.weekStart} onWeekChange={flow.changeWeek} />
           <WeeklySlots days={flow.days} selectedSlotId={flow.selectedSlotId} onSelectSlot={flow.selectSlot} />
         </> : (
-          <BookingDetails values={flow.details} errors={flow.errors} onChange={flow.updateDetails} onSubmit={flow.submitDetails} showConfirmationNotice={flow.showConfirmationNotice} />
+          <BookingDetails values={flow.details} errors={flow.errors} onChange={flow.updateDetails} onSubmit={flow.submitDetails} isBooking={flow.isBooking} bookingError={flow.bookingError} />
         )}
       </section>
       {flow.selection ? (
         <SelectedSlotSummary day={flow.selection.day} slot={flow.selection.slot}>
           {/* Keep opening and submitting as distinct button instances. */}
-          {flow.step === 'slots' ? <>
+          {flow.step === 'confirmation' ? <span className="booking-summary-complete">Confirmed</span> : flow.step === 'slots' ? <>
             <Button type="button" variant="ghost" onClick={handleClear}>Clear</Button>
             <Button key="open-details" type="button" onClick={flow.openDetails}>Book it</Button>
           </> : <>
-            <Button type="button" variant="ghost" onClick={handleBack}>Back</Button>
-            <Button key="confirm-booking" type="submit" form="booking-details-form">Confirm booking</Button>
+            <Button type="button" variant="ghost" onClick={handleBack} disabled={flow.isBooking}>Back</Button>
+            <Button key="confirm-booking" type="submit" form="booking-details-form" disabled={flow.isBooking}>{flow.isBooking ? 'Confirming…' : 'Confirm booking'}</Button>
           </>}
         </SelectedSlotSummary>
       ) : null}

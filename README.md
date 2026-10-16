@@ -1,6 +1,6 @@
 # UI studies — an interaction showcase
 
-This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` has weekly sample availability, a selected-slot summary, and a details form with minimal progress navigation. Confirmation is still to come.
+This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` has weekly sample availability, a selected-slot summary, details, and a simulated confirmation flow with minimal progress navigation.
 
 The repository directory and GitHub remote retain the original `triage-inbox` name. No package has been published.
 
@@ -85,8 +85,10 @@ Inspired by [Cal.com's custom booking demo](https://demo.cal.com/api-slots).
 - Keep the header and slots on one continuous surface without an internal divider. Show the selected date/time in a separate bordered container below it, with a circled calendar icon and a 12px gap.
 - Clear removes the summary and returns focus to the selected time. Changing weeks also clears selection. On mobile, summary actions wrap beneath the date/time.
 - Book it replaces availability with name, email, and an optional project note. The selected-slot summary stays below with Back and Confirm booking. Back preserves all inputs, the displayed week, and the chosen time, restoring focus to its slot.
-- Use three slim progress segments above the main surface, with the active number and label in white. Only the completed first step is navigable from details; Confirmed remains inactive.
-- Required-name and native email validation show linked inline errors and focus the first invalid field. Valid submission currently shows demo feedback only: no appointment is created and no confirmation screen appears.
+- Use three slim progress segments above the main surface, with the active number and label in white. The first step is navigable from details; all three segments complete only after simulated success.
+- Required-name and native email validation show linked inline errors and focus the first invalid field. Valid submission starts a 700ms local simulation, showing “Confirming…” and preventing duplicate submissions, editing, or Back navigation while pending. Rejections keep the details available for retry; leaving the page cancels the pending operation.
+- Keep all steps in the same frame: 416px tall on desktop and 400px on mobile, with internal scrolling for longer content and validation errors. Width follows the existing responsive container.
+- After success, focus Confirmation and draw a small circle/check with Motion. Show a personal demo confirmation, meeting title, host, duration, date, time, and timezone; retain the separate slot summary below. Reduced-motion preferences show the finished icon immediately. No real appointment or email is created.
 - Keep columns readable on mobile through a keyboard-focusable horizontal scroll region and a visible scroll hint. Small screens wrap the timezone label as needed.
 
 | Before | After |
@@ -123,6 +125,14 @@ Details and progress:
 
 [Details on mobile](notes/images/19-booking-details-mobile.png).
 
+Confirmation and a stable frame:
+
+| Before | After |
+| --- | --- |
+| ![Details before simulated confirmation](notes/images/20-before-confirmation.png) | ![Completed progress and animated-check confirmation](notes/images/20-confirmation.png) |
+
+[Confirmation on mobile](notes/images/20-confirmation-mobile.png).
+
 These fixture times are London wall times, not bookings or availability from an external calendar. The layout follows Cal.com's weekly demo; selection feedback, fixture schedules, and mobile scrolling are choices for this study.
 
 ## Other Triage decisions
@@ -135,7 +145,7 @@ These fixture times are London wall times, not bookings or availability from an 
 ## App structure
 
 - `src/features/triage/`: inbox components, hooks, fixtures, shortcuts, and motion styles.
-- `src/features/booking/`: week header, slot grid, selected-slot summary, details form, progress indicator, fixtures, and a focused flow hook.
+- `src/features/booking/`: week header, slot grid, selected-slot summary, details form, confirmation, progress indicator, fixtures, a simulated booking operation, and a focused flow hook.
 - `src/components/ui/`: shared shadcn primitives. React component filenames use PascalCase; hooks and utilities retain their existing naming convention.
 - `src/index.css`: shared theme and accessibility defaults.
 - `src/App.tsx` and `src/showcase.css`: showcase navigation and study pages.
@@ -152,7 +162,7 @@ npm run dev
 ```
 
 ```sh
-npm test        # Shortcut behavior and booking date boundaries
+npm test        # Shortcuts, date boundaries, and simulated booking timing/cancellation
 npm run build   # Type checking and production build
 npm run lint
 ```
