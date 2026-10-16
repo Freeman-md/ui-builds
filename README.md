@@ -1,6 +1,6 @@
 # UI studies — an interaction showcase
 
-This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` starts the booking study with a working week header. Slots and the booking steps are still to come.
+This app collects my interaction studies. `/` is the showcase, `/triage` is the working inbox, and `/booking` has weekly sample availability and selectable times. Details and confirmation are still to come.
 
 The repository directory and GitHub remote retain the original `triage-inbox` name. No package has been published.
 
@@ -73,18 +73,30 @@ I used React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, an
 
 The footer’s keycaps use native `<kbd>` elements. Team state, selection/focus restoration, and Peek behavior live in focused hooks. Both sample teams reuse the same inbox and detail components with different fixture data.
 
-## Booking — week header
+## Booking — weekly availability
 
 Inspired by [Cal.com's custom booking demo](https://demo.cal.com/api-slots).
 
 - Start with a rolling seven-day range beginning on today's date in London, matching the reference layout.
 - Group previous/next arrows with the date range; keep Europe/London as a fixed label on the right. There is no timezone picker in this slice.
 - Navigate in calendar days so daylight-saving changes do not shift the displayed week. Announce range updates without moving keyboard focus.
-- Keep the body blank until the weekly slots are built. Small screens wrap the timezone label as needed.
+- Show seven date columns with varied fictional 30-minute times; empty days say “No availability.” Past dates and elapsed London times are not offered.
+- Highlight the selected time and announce its date/time. Changing weeks clears selection; details remain for a later slice.
+- Keep columns readable on mobile through a keyboard-focusable horizontal scroll region and a visible scroll hint. Small screens wrap the timezone label as needed.
 
 | Before | After |
 | --- | --- |
 | ![Booking placeholder](notes/images/15-before-booking-header.png) | ![Working week header](notes/images/15-booking-header.png) |
+
+Weekly slots:
+
+| Before | After |
+| --- | --- |
+| ![Header only](notes/images/16-before-weekly-slots.png) | ![Seven daily availability columns](notes/images/16-weekly-slots.png) |
+
+[Mobile view](notes/images/16-weekly-slots-mobile.png).
+
+These fixture times are London wall times, not bookings or availability from an external calendar. The layout follows Cal.com's weekly demo; selection feedback, fixture schedules, and mobile scrolling are choices for this study.
 
 ## Other Triage decisions
 
@@ -96,7 +108,7 @@ Inspired by [Cal.com's custom booking demo](https://demo.cal.com/api-slots).
 ## App structure
 
 - `src/features/triage/`: inbox components, hooks, fixtures, shortcuts, and motion styles.
-- `src/features/booking/`: week header, calendar-day helpers, and navigation state.
+- `src/features/booking/`: week header, seven-day slot grid, fixture availability, calendar-day helpers, and selection state.
 - `src/components/ui/`: shared shadcn primitives. React component filenames use PascalCase; hooks and utilities retain their existing naming convention.
 - `src/index.css`: shared theme and accessibility defaults.
 - `src/App.tsx` and `src/showcase.css`: showcase navigation and study pages.

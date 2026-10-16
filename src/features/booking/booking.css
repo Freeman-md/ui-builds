@@ -1,11 +1,26 @@
-.booking-study { width: min(800px, 100%); }
+.booking-study { width: min(800px, 100%); min-width: 0; }
 .booking-shell { overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
 .booking-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px 20px; padding: 16px; border-bottom: 1px solid var(--border); }
 .booking-week-controls { display: flex; align-items: center; gap: 16px; }
 .booking-week-buttons { display: flex; gap: 6px; }
 .booking-week-range { font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .booking-timezone { padding: 3px 6px; border-radius: 4px; background: var(--muted); color: var(--muted-foreground); font-family: ui-monospace, monospace; font-size: 12px; }
-.booking-body { height: 200px; }
+.booking-slots-scroll { overflow-x: auto; padding: 16px; scrollbar-width: thin; }
+.booking-slots-scroll:focus-visible { outline: 2px solid var(--ring); outline-offset: -3px; }
+.booking-slots-grid { display: grid; grid-template-columns: repeat(7, minmax(96px, 1fr)); gap: 10px; min-height: 276px; }
+.booking-day-heading { margin-bottom: 12px; color: var(--muted-foreground); text-align: center; font-size: 12px; font-weight: 400; }
+.booking-day-heading span { color: var(--foreground); }
+.booking-day-slots { display: flex; flex-direction: column; gap: 8px; }
+.booking-slot { width: 100%; height: 36px; border-radius: 6px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.booking-slot[aria-pressed="true"] { border-color: var(--primary); background: var(--primary); color: var(--primary-foreground); }
+.booking-no-slots { padding: 10px 4px; color: var(--muted-foreground); text-align: center; font-size: 12px; line-height: 1.5; }
+.booking-selection { min-height: 48px; padding: 14px 16px; border-top: 1px solid var(--border); color: var(--muted-foreground); font-size: 12px; line-height: 1.6; }
+.booking-scroll-hint { display: none; margin: 12px 16px 0; color: var(--muted-foreground); font-size: 12px; }
+@media (max-width: 899px) {
+  .booking-scroll-hint { display: block; }
+  .booking-slots-grid { grid-template-columns: repeat(7, minmax(112px, 1fr)); }
+  .booking-slot { height: 40px; }
+}
 .booking-caption { margin-top: 16px; color: var(--muted-foreground); text-align: center; font-size: 12px; line-height: 1.6; }
 .booking-caption a { text-decoration: underline; text-underline-offset: 3px; }
 .booking-caption a:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
