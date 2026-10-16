@@ -58,7 +58,10 @@
 .booking-details-form h1 { font-size: 18px; font-weight: 500; letter-spacing: -.02em; }
 .booking-details-form h1:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 2px; }
 .booking-details-intro { margin-top: -12px; color: var(--muted-foreground); font-size: 13px; line-height: 1.6; }
-.booking-field { display: grid; gap: 8px; }
+.booking-field { display: grid; }
+.booking-field > label { margin-bottom: 8px; }
+.booking-error-motion { overflow: hidden; }
+.booking-field .booking-field-error { padding-top: 8px; }
 .booking-field input { height: 36px; }
 .booking-field textarea { min-height: 88px; resize: vertical; }
 .booking-optional { color: var(--muted-foreground); font-weight: 400; }
@@ -99,3 +102,18 @@
 .booking-summary-time-value { display: block; grid-area: 1 / 1; backface-visibility: hidden; transform-origin: center; }
 
 .booking-step-content { height: 100%; min-width: 0; overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; }
+
+/* Give the confirmation text flips depth without moving the frame. */
+.booking-confirmation {
+  perspective: 600px;
+}
+
+.booking-confirmation-meeting {
+  perspective: 600px;
+}
+
+.booking-confirmation h1,
+.booking-confirmation h2,
+.booking-confirmation p {
+  backface-visibility: hidden;
+}

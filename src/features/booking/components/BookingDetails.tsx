@@ -2,6 +2,7 @@ import { useEffect, useRef, type FormEvent } from 'react'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Textarea } from '@/components/ui/Textarea'
+import { BookingFieldError } from './BookingFieldError'
 import type { BookingDetailsErrors, BookingDetailsValues } from '../hooks/use-booking-flow'
 
 type BookingDetailsProps = {
@@ -33,12 +34,12 @@ export function BookingDetails({ values, errors, onChange, onSubmit, isBooking, 
         <div className="booking-field">
           <Label htmlFor="booking-name">Name *</Label>
           <Input id="booking-name" name="name" autoComplete="name" required value={values.name} onChange={(event) => onChange('name', event.target.value)} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'booking-name-error' : undefined} />
-          {errors.name ? <p className="booking-field-error" id="booking-name-error" role="alert">{errors.name}</p> : null}
+          <BookingFieldError id="booking-name-error" message={errors.name} />
         </div>
         <div className="booking-field">
           <Label htmlFor="booking-email">Email *</Label>
           <Input id="booking-email" name="email" type="email" autoComplete="email" required value={values.email} onChange={(event) => onChange('email', event.target.value)} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'booking-email-error' : undefined} />
-          {errors.email ? <p className="booking-field-error" id="booking-email-error" role="alert">{errors.email}</p> : null}
+          <BookingFieldError id="booking-email-error" message={errors.email} />
         </div>
         <div className="booking-field">
           <Label htmlFor="booking-note">Project note <span className="booking-optional">(optional)</span></Label>
@@ -46,7 +47,7 @@ export function BookingDetails({ values, errors, onChange, onSubmit, isBooking, 
         </div>
       </fieldset>
       {isBooking ? <p className="booking-details-notice" role="status">Confirming your demo booking…</p> : null}
-      {bookingError ? <p className="booking-field-error" role="alert">{bookingError}</p> : null}
+      <BookingFieldError message={bookingError} />
     </form>
   )
 }
