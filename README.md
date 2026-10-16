@@ -59,7 +59,7 @@ Inspired by [Cal.com’s custom slots demo](https://demo.cal.com/api-slots). Ope
 - **Make direction clear.** Fade the old week or step out for 100ms, then slide the next in over 200ms. Forward enters from the right; Back enters from the left. Keep the frame and week controls steady.
 - **Reveal the summary downward.** Expand, fade, and slide it in over 300ms; reverse on dismissal. Keep the card open when changing slots.
 - **Animate only changed values.** Flip the summary time vertically; fade its date only when the day changes. Keep the icon, timezone, and card anchored.
-- **Give confirmation reading time.** Draw the checkmark, then reveal the heading, personal confirmation message, meeting title, duration/host, date, time/timezone, and restart button in order. Pause **0.5 seconds after each reveal**. Only duration/host and date typewrite; the remaining text flips in, with a slight rise on the confirmation message.
+- **Sequence confirmation clearly.** Draw the checkmark, then reveal the heading, personal confirmation message, meeting title, duration/host, date, time/timezone, and restart button in order. Each reveal starts when the preceding animation finishes, with no added pauses. Only duration/host and date typewrite; the remaining text flips in, with a slight rise on the confirmation message.
 - **Soften validation.** Expand and fade inline errors in; collapse and fade them out without resizing the outer frame.
 - **Keep motion accessible.** Reserve the final text layout, expose complete text to screen readers, and make exiting content unfocusable. Reduced motion removes delays and effects; focusing the restart button reveals the remaining confirmation immediately.
 
@@ -67,7 +67,7 @@ The weekly layout and selection-summary pattern came from the inspected referenc
 
 **Demo limits:** fictional London wall-time availability, a fixed Europe/London label, and no real bookings or emails. Past dates and elapsed times are excluded. There is no timezone picker, external calendar, or interactive slot-conflict scenario.
 
-I learned to separate motion speed from reading time: a smooth reveal still feels rushed without space before the next one.
+I learned to judge the whole sequence after a fresh reload: extra pauses between short reveals made confirmation feel unnecessarily slow.
 
 ## Shared foundation
 

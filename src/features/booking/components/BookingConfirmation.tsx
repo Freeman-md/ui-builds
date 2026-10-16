@@ -7,7 +7,6 @@ import { formatBookingDate } from '../week'
 
 type BookingConfirmationProps = { booking: DemoBooking; onRestart: () => void }
 const characterInterval = 0.018
-const revealPause = 0.5
 const immediate = { duration: 0, delay: 0 }
 
 function flipAt(delay: number, rise = 0): Variants {
@@ -45,14 +44,14 @@ export function BookingConfirmation({ booking, onRestart }: BookingConfirmationP
   const firstName = booking.name.split(/\s+/)[0]
   const duration = `${booking.meeting.duration} minutes with ${booking.meeting.host}`
   const dateLabel = formatBookingDate(date)
-  // Leave a reading pause after each reveal; text length sets typing time.
-  const headingAt = uiMotion.enterDuration + 0.5 + revealPause
-  const messageAt = headingAt + uiMotion.enterDuration + revealPause
-  const titleAt = messageAt + uiMotion.enterDuration + revealPause
-  const durationAt = titleAt + uiMotion.enterDuration + revealPause
-  const dateAt = durationAt + duration.length * characterInterval + revealPause
-  const timeAt = dateAt + dateLabel.length * characterInterval + revealPause
-  const buttonAt = timeAt + uiMotion.enterDuration + revealPause
+  // Each reveal follows the preceding animation; text length sets typing time.
+  const headingAt = uiMotion.enterDuration + 0.5
+  const messageAt = headingAt + uiMotion.enterDuration
+  const titleAt = messageAt + uiMotion.enterDuration
+  const durationAt = titleAt + uiMotion.enterDuration
+  const dateAt = durationAt + duration.length * characterInterval
+  const timeAt = dateAt + dateLabel.length * characterInterval
+  const buttonAt = timeAt + uiMotion.enterDuration
 
   return (
     <motion.div className="booking-confirmation" aria-labelledby="booking-confirmation-heading"
