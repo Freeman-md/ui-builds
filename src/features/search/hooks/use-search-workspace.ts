@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useRef, useState, type KeyboardEvent } from 'react'
 import { sampleResultGroups } from '../data/sample-results'
 import { filterResults } from '../filter-results'
 
@@ -39,15 +39,6 @@ export function useSearchWorkspace() {
     rowRefs.current.get(nextId)?.focus()
   }
 
-  useEffect(() => {
-    function onKeyDown(event: globalThis.KeyboardEvent) {
-      if (event.defaultPrevented || event.isComposing || event.repeat || !event.metaKey || event.ctrlKey || event.altKey || event.shiftKey || event.key.toLowerCase() !== 'k') return
-      event.preventDefault()
-      setState((previous) => previous.selectedId === null ? previous : { ...previous, actionsOpen: !previous.actionsOpen })
-    }
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [])
 
   return { ...state, ...matches, hoveredResultId, setHoveredResultId, rowRefs, setQuery, selectResult, setActionsOpen, navigateResults }
 }

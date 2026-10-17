@@ -26,12 +26,13 @@ const actions = [
 
 type SearchActionPanelProps = {
   title: string
+  modifier: string
   disabled?: boolean
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-export function SearchActionPanel({ title, disabled = false, open, onOpenChange }: SearchActionPanelProps) {
+export function SearchActionPanel({ title, modifier, disabled = false, open, onOpenChange }: SearchActionPanelProps) {
   const layoutId = useId()
   const reducedMotion = useReducedMotion()
   const { contentRef, height } = usePanelContentHeight()
@@ -94,9 +95,9 @@ export function SearchActionPanel({ title, disabled = false, open, onOpenChange 
 
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger disabled={disabled} ref={triggerRef} render={<Button variant="ghost" size="sm" />} className="search-footer-action search-footer-actions" aria-label="Actions" aria-keyshortcuts="Meta+K">
+      <PopoverTrigger disabled={disabled} ref={triggerRef} render={<Button variant="ghost" size="sm" />} className="search-footer-action search-footer-actions" aria-label="Actions" aria-keyshortcuts={modifier === '⌘' ? 'Meta+Enter' : 'Control+Enter'}>
         Actions
-        <KbdGroup aria-hidden="true"><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
+        <KbdGroup aria-hidden="true"><Kbd>{modifier}</Kbd><Kbd>↵</Kbd></KbdGroup>
       </PopoverTrigger>
       <PopoverContent style={panelMotionStyle} inert={!open} className="search-action-panel" align="end" side="top" sideOffset={16} initialFocus={inputRef} finalFocus={triggerRef} onKeyDown={navigateActions}>
         <motion.div
