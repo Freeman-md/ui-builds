@@ -137,7 +137,7 @@
   --foreground: #ededee;
   --card-foreground: #ededee;
   --muted-foreground: #a1a1aa;
-  --ring: #a5b4fc;
+  --ring: var(--muted-foreground);
   --triage-state-duration: 120ms;
   --triage-surface-duration: 150ms;
   --triage-ease-out: cubic-bezier(0.23, 1, 0.32, 1);

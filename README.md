@@ -95,7 +95,7 @@ Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog
 
 ## Shared foundation
 
-React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucide icons.
+React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucide icons. Shared focus indicators use the neutral muted-foreground color so inputs and controls remain visible without a blue accent.
 
 | Study | UI primitives |
 | --- | --- |
