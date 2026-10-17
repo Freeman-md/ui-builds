@@ -1,6 +1,6 @@
 # UI studies — an interaction showcase
 
-I rebuild focused interactions, then refine how they feel through layout, motion, and keyboard use. This app contains two studies: a Linear-inspired Triage inbox and a Cal.com-inspired Booking flow.
+I rebuild focused interactions, then refine how they feel through layout, motion, and keyboard use. This app contains three studies: a Linear-inspired Triage inbox, a Cal.com-inspired Booking flow, and a Raycast-inspired Search shell.
 
 Share a specific study:
 
@@ -9,11 +9,13 @@ Share a specific study:
 | UI builds showcase | [Repository overview](https://github.com/Freeman-md/triage-inbox#readme) |
 | Triage inbox | [Triage design, motion, and keyboard decisions](https://github.com/Freeman-md/triage-inbox#triage-inbox) |
 | Booking flow | [Booking design and animation decisions](https://github.com/Freeman-md/triage-inbox#booking-flow) |
+| Search and actions | [Search shell design decisions](https://github.com/Freeman-md/triage-inbox#search-and-actions) |
 
 ## Contents
 
 - [Triage inbox](#triage-inbox)
 - [Booking flow](#booking-flow)
+- [Search and actions](#search-and-actions)
 - [Shared foundation](#shared-foundation)
 - [Run locally](#run-locally)
 
@@ -77,6 +79,20 @@ The weekly layout and selection-summary pattern came from the inspected referenc
 
 I learned to judge the whole sequence after a fresh reload: extra pauses between short reveals made confirmation feel unnecessarily slow.
 
+## Search and actions
+
+Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog/launch-week-summary), studied first in [Paper](https://app.paper.design/file/01M54DTB6H2SHC0YYVR2TEN8CD/p-1-0). Open `/search` for the current slice: an editable search input and a blank body.
+
+- **Start with the shell.** A centered 750×480px container, 12px corners, restrained border/shadow, and a 56px input row. Width adapts to mobile; height contracts on shorter screens.
+- **Reuse the foundation.** Existing shadcn Card and Input, the showcase’s Geist font, and a feature-local warm dark surface. Other studies keep their styling.
+- **Keep the input accessible.** Explicit label, visible keyboard focus, 16px mobile text, and no accidental submission on Enter. Results, filtering, footer actions, and the Action Panel come later.
+
+| Before | Current shell |
+| --- | --- |
+| ![Search route before implementation](notes/images/30-before-search-shell.png) | ![Centered search shell and input](notes/images/30-search-shell.png) |
+
+[Mobile shell](notes/images/30-search-shell-mobile.png). This is a visual study, not a desktop launcher or an exact native-material replica.
+
 ## Shared foundation
 
 React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucide icons.
@@ -85,10 +101,11 @@ React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucid
 | --- | --- |
 | Triage | Card, Tabs, Dialog, Popover, Item/ItemGroup, Toggle, Tooltip, Button, Badge, Input, Label |
 | Booking | Button, Input, Label, Textarea; custom availability, progress, and confirmation layouts |
+| Search | Card, Input |
 
-Feature hooks own state and interactions; components handle presentation. Both studies reuse theme tokens and [motion easing/timings](src/lib/motion.ts), while their choreography stays local.
+Feature hooks own state and interactions; components handle presentation. Triage and Booking share [motion easing/timings](src/lib/motion.ts), while their choreography stays local. Search currently uses native input behavior without added motion.
 
-- `src/features/triage/` and `src/features/booking/`: separate components, hooks, and fixtures.
+- `src/features/triage/`, `src/features/booking/`, and `src/features/search/`: separate study components, with hooks and fixtures where needed.
 - `src/components/ui/`: shared primitives; `src/index.css`: shared theme and accessibility defaults.
 - `src/App.tsx` and `src/showcase.css`: showcase navigation and layout.
 

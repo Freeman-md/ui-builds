@@ -5,17 +5,21 @@ import './showcase.css'
 const TriagePage = lazy(() => import('@/features/triage/TriagePage'))
 
 const BookingPage = lazy(() => import('@/features/booking/BookingPage'))
+const SearchPage = lazy(() => import('@/features/search/SearchPage'))
 
 const studies = [
   { href: '/triage', number: '01', title: 'Triage inbox', status: 'Interactive', description: 'An inbox that opens up. Peek, directional motion, and keyboard navigation.', inspiration: 'Inspired by Linear' },
   { href: '/booking', number: '02', title: 'Project discussion', status: 'In progress', description: 'A considered booking flow. Choose a time, share the context, confirm the conversation.', inspiration: 'Inspired by Cal.com' },
+  { href: '/search', number: '03', title: 'Search & actions', status: 'In progress', description: 'A focused search workspace. Starting with the container and input.', inspiration: 'Inspired by Raycast' },
 ]
 
 function App() {
   const pathname = window.location.pathname.replace(/\/$/, '') || '/'
   const isTriage = pathname === '/triage'
   const isBooking = pathname === '/booking'
+  const isSearch = pathname === '/search'
   const isHome = pathname === '/'
+  const StudyPage = isTriage ? TriagePage : isBooking ? BookingPage : isSearch ? SearchPage : null
 
   return (
     <TooltipProvider delay={300}>
@@ -26,12 +30,13 @@ function App() {
           <a href="/" aria-current={isHome ? 'page' : undefined}>Overview</a>
           <a href="/triage" aria-current={isTriage ? 'page' : undefined}>Triage</a>
           <a href="/booking" aria-current={isBooking ? 'page' : undefined}>Booking</a>
+          <a href="/search" aria-current={isSearch ? 'page' : undefined}>Search</a>
         </nav>
       </header>
-      {isTriage || isBooking ? (
-        <main id="main" tabIndex={-1} className="showcase-triage" aria-label={isTriage ? 'Triage inbox' : 'Booking study'}>
+      {StudyPage ? (
+        <main id="main" tabIndex={-1} className="showcase-triage" aria-label={isTriage ? 'Triage inbox' : isBooking ? 'Booking study' : 'Search study'}>
           <Suspense fallback={<p role="status">Loading study…</p>}>
-            {isTriage ? <TriagePage /> : <BookingPage />}
+            <StudyPage />
           </Suspense>
         </main>
       ) : (
