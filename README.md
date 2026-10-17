@@ -84,14 +84,14 @@ I learned to judge the whole sequence after a fresh reload: extra pauses between
 Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog/launch-week-summary), studied first in [Paper](https://app.paper.design/file/01M54DTB6H2SHC0YYVR2TEN8CD/p-1-0). Open `/search` for the current slice: an editable search input and a blank body.
 
 - **Start with the shell.** A centered 750×480px container, 12px corners, restrained border/shadow, and a 64px input row with more breathing room. Width adapts to mobile; height contracts on shorter screens.
-- **Reuse the foundation.** Existing shadcn Card and Input, the showcase’s Geist font, and the app’s muted surface, border, and placeholder tokens. Other studies keep their styling.
+- **Reuse the foundation.** Existing shadcn Card and Input, the showcase’s Geist font, and the app’s muted tint as a frosted-glass surface: translucency, background blur, and a faint light edge. Placeholder text uses the shared theme token. Other studies keep their styling.
 - **Keep the input accessible.** Explicit label, visible keyboard focus, 16px mobile text, and no accidental submission on Enter. Results, filtering, footer actions, and the Action Panel come later.
 
 | Before | Current shell |
 | --- | --- |
-| ![Search route before implementation](notes/images/30-before-search-shell.png) | ![Centered search shell and input](notes/images/31-search-muted-padding.png) |
+| ![Search route before implementation](notes/images/30-before-search-shell.png) | ![Centered search shell and input](notes/images/32-search-frosted.png) |
 
-[Mobile shell](notes/images/31-search-muted-padding-mobile.png). This is a visual study, not a desktop launcher or an exact native-material replica.
+[Mobile shell](notes/images/32-search-frosted-mobile.png). Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. Blur is subtle against the showcase’s plain backdrop. This is a visual study, not a desktop launcher or an exact native-material replica.
 
 ## Shared foundation
 
