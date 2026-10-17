@@ -1,25 +1,22 @@
 .search-shell {
-  /* Match the Paper shell without changing the other studies' theme. */
-  --search-surface: #181214;
-  --search-border: rgb(218 199 202 / 22%);
   width: min(750px, 100%);
   min-width: 0;
   height: min(480px, 70svh);
   min-height: 240px;
   gap: 0;
   padding: 0;
-  border: 1px solid var(--search-border);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--search-surface);
+  background: var(--muted);
   box-shadow: 0 22px 55px rgb(0 0 0 / 32%), 0 1px 2px rgb(0 0 0 / 45%);
 }
 
 .search-shell .search-input {
-  height: 56px;
+  height: 64px;
   flex-shrink: 0;
-  padding: 0 16px;
+  padding: 20px 24px;
   border: 0;
-  border-bottom: 1px solid rgb(255 255 255 / 6%);
+  border-bottom: 1px solid var(--border);
   border-radius: 0;
   background: transparent;
   color: var(--foreground);
@@ -29,7 +26,7 @@
 }
 
 .search-shell .search-input::placeholder {
-  color: #a59a9e;
+  color: var(--muted-foreground);
 }
 
 .search-shell .search-input:focus-visible {
@@ -39,7 +36,7 @@
 
 @media (max-width: 479px) {
   .search-shell .search-input {
-    padding-inline: 12px;
+    padding-inline: 16px;
     font-size: 16px;
   }
 }
