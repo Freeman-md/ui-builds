@@ -22,7 +22,7 @@ export default function SearchPage() {
         onChange={(event) => workspace.setQuery(event.target.value)}
         onKeyDown={workspace.navigateResults}
       />
-      <SearchResults groups={workspace.groups} selectedId={workspace.selectedId} onSelect={workspace.selectResult} rowRefs={workspace.rowRefs} onKeyDown={workspace.navigateResults} />
+      <SearchResults hoveredId={workspace.hoveredResultId} onHover={workspace.setHoveredResultId} groups={workspace.groups} selectedId={workspace.selectedId} onSelect={workspace.selectResult} rowRefs={workspace.rowRefs} onKeyDown={workspace.navigateResults} />
       <SearchFooter title={workspace.selectedResult?.title ?? null} actionsOpen={workspace.actionsOpen} onActionsOpenChange={workspace.setActionsOpen} />
     </Card>
   )

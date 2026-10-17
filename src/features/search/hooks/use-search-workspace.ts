@@ -6,10 +6,12 @@ type SearchState = { query: string; selectedId: string | null; actionsOpen: bool
 
 export function useSearchWorkspace() {
   const [state, setState] = useState<SearchState>({ query: '', selectedId: 'store', actionsOpen: false })
+  const [hoveredResultId, setHoveredResultId] = useState<string | null>(null)
   const rowRefs = useRef(new Map<string, HTMLButtonElement>())
   const matches = filterResults(sampleResultGroups, state.query, state.selectedId)
 
   function setQuery(query: string) {
+    setHoveredResultId(null)
     setState((previous) => {
       const selectedId = filterResults(sampleResultGroups, query, previous.selectedId).selectedResult?.id ?? null
       return { query, selectedId, actionsOpen: previous.actionsOpen && selectedId !== null && selectedId === previous.selectedId }
@@ -17,6 +19,7 @@ export function useSearchWorkspace() {
   }
 
   function selectResult(selectedId: string) {
+    setHoveredResultId(null)
     setState((previous) => ({ ...previous, selectedId, actionsOpen: previous.actionsOpen && selectedId === previous.selectedId }))
   }
 
@@ -27,6 +30,7 @@ export function useSearchWorkspace() {
   function navigateResults(event: KeyboardEvent) {
     if (event.nativeEvent.isComposing || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')) return
     event.preventDefault()
+    setHoveredResultId(null)
     if (!matches.items.length) return
     const index = matches.items.findIndex((item) => item.id === state.selectedId)
     const nextIndex = (index + (event.key === 'ArrowDown' ? 1 : -1) + matches.items.length) % matches.items.length
@@ -45,5 +49,5 @@ export function useSearchWorkspace() {
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  return { ...state, ...matches, rowRefs, setQuery, selectResult, setActionsOpen, navigateResults }
+  return { ...state, ...matches, hoveredResultId, setHoveredResultId, rowRefs, setQuery, selectResult, setActionsOpen, navigateResults }
 }

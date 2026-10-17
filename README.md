@@ -89,6 +89,7 @@ Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog
 - **Anchor the action hints.** A 40px footer beneath the scrolling results, with the reference’s simplified mark, “Open Command” ↵, and “Actions” ⌘ K. It grows to 48px on mobile. Actions opens the panel; Open Command remains disabled until execution is implemented.
 - **Keep actions contextual.** A 360×280px panel above Actions, with the selected result title, grouped action rows, aligned keycaps, and search at the bottom. Click Actions or press ⌘ K to toggle; Esc restores trigger focus and an outside click dismisses. Arrow keys navigate actions. Mobile narrows the panel and uses 48px rows. Changing result selection closes the panel and resets its action query, so actions never retain stale context.
 - **Filter without losing context.** Match action names as you type, ignoring case and surrounding spaces. Hide empty groups, select the first match, and keep arrows within the matches. Contract the panel around results; show “No actions found” when empty, with a live result count for assistive technology. Clearing restores all four actions.
+- **Let the highlight travel.** Search results and Action Panel rows reuse Triage’s 300ms easing and a shared highlight component. Hover moves the highlight without committing selection; leaving returns it to the selected row. Keyboard navigation takes over immediately. Each list has its own motion scope, and reduced motion removes travel.
 - **Keep input focus transparent.** Shared Input and Textarea focus outlines/rings are transparent by default, ready for individual overrides. Result buttons retain visible neutral focus; validation keeps its error styling.
 
 | Before: main query without filtering | After: matching results |
@@ -109,7 +110,7 @@ React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucid
 | Booking | Button, Input, Label, Textarea; custom availability, progress, and confirmation layouts |
 | Search | Card, Input, Item/ItemGroup, ItemMedia, ItemContent, ItemActions, Button, Kbd/KbdGroup, Popover |
 
-Feature hooks own state and interactions; components handle presentation. Triage and Booking share [motion easing/timings](src/lib/motion.ts), while their choreography stays local. Search currently uses native input behavior without added motion.
+Feature hooks own state and interactions; components handle presentation. All three studies share [motion easing/timings](src/lib/motion.ts), while their choreography stays local. Search reuses Triage’s moving-highlight pattern for both lists.
 
 - `src/features/triage/`, `src/features/booking/`, and `src/features/search/`: separate study components, with hooks and fixtures where needed.
 - `src/components/ui/`: shared primitives; `src/index.css`: shared theme and accessibility defaults.
