@@ -2,9 +2,11 @@ import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { SearchResults } from './components/SearchResults'
 import { SearchFooter } from './components/SearchFooter'
+import { useSearchWorkspace } from './hooks/use-search-workspace'
 import './search.css'
 
 export default function SearchPage() {
+  const workspace = useSearchWorkspace()
   return (
     <Card className="search-shell" role="region" aria-label="Raycast-inspired search study">
       <Input
@@ -17,8 +19,8 @@ export default function SearchPage() {
         autoComplete="off"
         spellCheck={false}
       />
-      <SearchResults />
-      <SearchFooter />
+      <SearchResults selectedId={workspace.selectedId} onSelect={workspace.setSelectedId} />
+      <SearchFooter title={workspace.selectedResult.title} actionsOpen={workspace.actionsOpen} onActionsOpenChange={workspace.setActionsOpen} />
     </Card>
   )
 }

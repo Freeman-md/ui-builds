@@ -83,19 +83,20 @@ I learned to judge the whole sequence after a fresh reload: extra pauses between
 
 Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog/launch-week-summary), studied first in [Paper](https://app.paper.design/file/01M54DTB6H2SHC0YYVR2TEN8CD/p-1-0). Open `/search` for grouped sample results, with **Store selected initially**.
 
-- **Keep the shell quiet.** A centered 750×480px container, 12px corners, and a 64px input row. The app’s muted tint, background blur, and faint light edge create a frosted surface while keeping text opaque.
+- **Keep the shell quiet.** A centered 750×480px container, 12px corners, and a 64px input row. An 18% neutral tint and 24px backdrop blur let the actual page background show through; no opaque surface gradient. The light edge defines the shell while text stays opaque.
 - **Follow the reference’s density.** Suggestions and Commands groups, 20px icons, inline source labels, and aligned trailing result types. Rows are 40px on desktop and 48px on mobile; longer lists scroll inside the shell.
 - **Make selection clear.** A subtle full-row highlight, click selection, and native Tab + Space/Enter support. Selection stays local and resets on refresh. The simplified SVG icons come from the Paper study.
-- **Anchor the action hints.** A 40px footer beneath the scrolling results, with the reference’s simplified mark, “Open Command” ↵, and “Actions” ⌘ K. It grows to 48px on mobile. Buttons remain disabled until execution and the Action Panel are implemented.
+- **Anchor the action hints.** A 40px footer beneath the scrolling results, with the reference’s simplified mark, “Open Command” ↵, and “Actions” ⌘ K. It grows to 48px on mobile. Actions opens the panel; Open Command remains disabled until execution is implemented.
+- **Keep actions contextual.** A 360×280px panel above Actions, with the selected result title, grouped action rows, aligned keycaps, and search at the bottom. Click Actions or press ⌘ K to toggle; Esc restores trigger focus and an outside click dismisses. Arrow keys navigate actions. Mobile narrows the panel and uses 48px rows.
 - **Keep input focus transparent.** Shared Input and Textarea focus outlines/rings are transparent by default, ready for individual overrides. Result buttons retain visible neutral focus; validation keeps its error styling.
 
-| Before: results only | After: action and shortcut bar |
+| Before: tinted shell | After: backdrop glass and Action Panel |
 | --- | --- |
-| ![Results before the footer](notes/images/35-before-search-footer.png) | ![Store selected with the action footer](notes/images/35-search-footer.png) |
+| ![Before the Action Panel and material correction](notes/images/36-before-action-panel.png) | ![Store selected with Action Panel open](notes/images/36-action-panel.png) |
 
-[Mobile results and footer](notes/images/35-search-footer-mobile.png). Filtering, arrow-key navigation, command execution, and the Action Panel remain for later. The footer’s shortcut labels are visual hints only in this slice. Typing currently leaves all eight fixture results visible; selecting a result does not launch anything.
+[Mobile Action Panel](notes/images/36-action-panel-mobile.png) · [Shell with the panel closed](notes/images/36-search-backdrop.png). Filtering and command execution remain for later. Both search fields accept text without filtering; action rows only change selection. The action shortcuts besides ⌘ K are visual hints. The four actions follow Paper’s Store fixture; the panel heading follows the selected result.
 
-Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. Blur is subtle against the showcase’s plain backdrop. This is a visual study, not a desktop launcher or an exact native-material replica.
+Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. A uniform dark backdrop offers no distinct detail to blur, so the glass remains subtle; no artificial wallpaper or coloured reflection is added. This is a visual study, not a desktop launcher or an exact native-material replica.
 
 ## Shared foundation
 
@@ -105,7 +106,7 @@ React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucid
 | --- | --- |
 | Triage | Card, Tabs, Dialog, Popover, Item/ItemGroup, Toggle, Tooltip, Button, Badge, Input, Label |
 | Booking | Button, Input, Label, Textarea; custom availability, progress, and confirmation layouts |
-| Search | Card, Input, Item/ItemGroup, ItemMedia, ItemContent, ItemActions, Button, Kbd/KbdGroup |
+| Search | Card, Input, Item/ItemGroup, ItemMedia, ItemContent, ItemActions, Button, Kbd/KbdGroup, Popover |
 
 Feature hooks own state and interactions; components handle presentation. Triage and Booking share [motion easing/timings](src/lib/motion.ts), while their choreography stays local. Search currently uses native input behavior without added motion.
 
