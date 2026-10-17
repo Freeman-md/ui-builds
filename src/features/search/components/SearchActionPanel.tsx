@@ -31,7 +31,7 @@ export function SearchActionPanel({ title, open, onOpenChange }: SearchActionPan
   const hasExtensionActions = matches.some((action) => action.group === 'extension')
 
   function navigateActions(event: KeyboardEvent) {
-    if (event.isComposing || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')) return
+    if (event.nativeEvent.isComposing || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')) return
     event.preventDefault()
     if (matches.length === 0) return
     const fromInput = event.target === inputRef.current
