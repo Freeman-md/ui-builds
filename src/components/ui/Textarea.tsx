@@ -6,7 +6,7 @@ function Textarea({ className, ...props }: ComponentProps<'textarea'>) {
     <textarea
       data-slot="textarea"
       className={cn(
-        'w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive md:text-sm dark:bg-input/30',
+        'w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none outline-transparent placeholder:text-muted-foreground focus-visible:ring-3 focus-visible:ring-transparent disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive md:text-sm dark:bg-input/30',
         className,
       )}
       {...props}

@@ -10,7 +10,7 @@ const SearchPage = lazy(() => import('@/features/search/SearchPage'))
 const studies = [
   { href: '/triage', number: '01', title: 'Triage inbox', status: 'Interactive', description: 'An inbox that opens up. Peek, directional motion, and keyboard navigation.', inspiration: 'Inspired by Linear' },
   { href: '/booking', number: '02', title: 'Project discussion', status: 'In progress', description: 'A considered booking flow. Choose a time, share the context, confirm the conversation.', inspiration: 'Inspired by Cal.com' },
-  { href: '/search', number: '03', title: 'Search & actions', status: 'In progress', description: 'A focused search workspace. Starting with the container and input.', inspiration: 'Inspired by Raycast' },
+  { href: '/search', number: '03', title: 'Search & actions', status: 'In progress', description: 'A focused search workspace with grouped results and contextual selection.', inspiration: 'Inspired by Raycast' },
 ]
 
 function App() {

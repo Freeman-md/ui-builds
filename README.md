@@ -1,6 +1,6 @@
 # UI studies — an interaction showcase
 
-I rebuild focused interactions, then refine how they feel through layout, motion, and keyboard use. This app contains three studies: a Linear-inspired Triage inbox, a Cal.com-inspired Booking flow, and a Raycast-inspired Search shell.
+I rebuild focused interactions, then refine how they feel through layout, motion, and keyboard use. This app contains three studies: a Linear-inspired Triage inbox, a Cal.com-inspired Booking flow, and a Raycast-inspired Search study.
 
 Share a specific study:
 
@@ -9,7 +9,7 @@ Share a specific study:
 | UI builds showcase | [Repository overview](https://github.com/Freeman-md/triage-inbox#readme) |
 | Triage inbox | [Triage design, motion, and keyboard decisions](https://github.com/Freeman-md/triage-inbox#triage-inbox) |
 | Booking flow | [Booking design and animation decisions](https://github.com/Freeman-md/triage-inbox#booking-flow) |
-| Search and actions | [Search shell design decisions](https://github.com/Freeman-md/triage-inbox#search-and-actions) |
+| Search and actions | [Search design decisions](https://github.com/Freeman-md/triage-inbox#search-and-actions) |
 
 ## Contents
 
@@ -81,27 +81,30 @@ I learned to judge the whole sequence after a fresh reload: extra pauses between
 
 ## Search and actions
 
-Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog/launch-week-summary), studied first in [Paper](https://app.paper.design/file/01M54DTB6H2SHC0YYVR2TEN8CD/p-1-0). Open `/search` for the current slice: an editable search input and a blank body.
+Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog/launch-week-summary), studied first in [Paper](https://app.paper.design/file/01M54DTB6H2SHC0YYVR2TEN8CD/p-1-0). Open `/search` for grouped sample results, with **Store selected initially**.
 
-- **Start with the shell.** A centered 750×480px container, 12px corners, restrained border/shadow, and a 64px input row with more breathing room. Width adapts to mobile; height contracts on shorter screens.
-- **Reuse the foundation.** Existing shadcn Card and Input, the showcase’s Geist font, and the app’s muted tint as a frosted-glass surface: translucency, background blur, and a faint light edge. Placeholder text uses the shared theme token. Other studies keep their styling.
-- **Keep the input accessible.** Explicit label, visible keyboard focus, 16px mobile text, and no accidental submission on Enter. Results, filtering, footer actions, and the Action Panel come later.
+- **Keep the shell quiet.** A centered 750×480px container, 12px corners, and a 64px input row. The app’s muted tint, background blur, and faint light edge create a frosted surface while keeping text opaque.
+- **Follow the reference’s density.** Suggestions and Commands groups, 20px icons, inline source labels, and aligned trailing result types. Rows are 40px on desktop and 48px on mobile; longer lists scroll inside the shell.
+- **Make selection clear.** A subtle full-row highlight, click selection, and native Tab + Space/Enter support. Selection stays local and resets on refresh. The simplified SVG icons come from the Paper study.
+- **Keep input focus transparent.** Shared Input and Textarea focus outlines/rings are transparent by default, ready for individual overrides. Result buttons retain visible neutral focus; validation keeps its error styling.
 
-| Before | Current shell |
+| Before: blank shell | After: grouped results |
 | --- | --- |
-| ![Search route before implementation](notes/images/30-before-search-shell.png) | ![Centered search shell and input](notes/images/32-search-frosted.png) |
+| ![Blank search shell](notes/images/34-before-search-results.png) | ![Grouped results with Store selected](notes/images/34-search-results.png) |
 
-[Mobile shell](notes/images/32-search-frosted-mobile.png). Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. Blur is subtle against the showcase’s plain backdrop. This is a visual study, not a desktop launcher or an exact native-material replica.
+[Mobile results](notes/images/34-search-results-mobile.png). Filtering, arrow-key navigation, footer actions, and the Action Panel remain for later. Typing currently leaves all eight fixture results visible; selecting a result does not launch anything.
+
+Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. Blur is subtle against the showcase’s plain backdrop. This is a visual study, not a desktop launcher or an exact native-material replica.
 
 ## Shared foundation
 
-React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucide icons. Shared focus indicators use the neutral muted-foreground color so inputs and controls remain visible without a blue accent.
+React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucide icons. Shared control focus indicators use neutral muted-foreground. Input and Textarea focus outlines/rings are transparent by default; individual fields can opt into a visible treatment. Validation styling remains separate.
 
 | Study | UI primitives |
 | --- | --- |
 | Triage | Card, Tabs, Dialog, Popover, Item/ItemGroup, Toggle, Tooltip, Button, Badge, Input, Label |
 | Booking | Button, Input, Label, Textarea; custom availability, progress, and confirmation layouts |
-| Search | Card, Input |
+| Search | Card, Input, Item/ItemGroup, ItemMedia, ItemContent, ItemActions |
 
 Feature hooks own state and interactions; components handle presentation. Triage and Booking share [motion easing/timings](src/lib/motion.ts), while their choreography stays local. Search currently uses native input behavior without added motion.
 
