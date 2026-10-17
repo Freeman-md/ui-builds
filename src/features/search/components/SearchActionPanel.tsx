@@ -7,10 +7,10 @@ import { Kbd, KbdGroup } from '@/components/ui/Kbd'
 import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from '@/components/ui/Popover'
 
 const actions = [
-  { title: 'Open Command', icon: FileText, keys: ['↵'] },
-  { title: 'Add to Favorites', icon: Star, keys: ['⌘', '⇧', 'F'] },
-  { title: 'Reset Ranking', icon: RotateCcw, keys: ['⌘', '⌥', 'R'] },
-  { title: 'Manage Extensions', icon: Settings, keys: ['⌘', '⇧', ','] },
+  { title: 'Open Command', icon: FileText, keys: ['↵'], group: 'command' },
+  { title: 'Add to Favorites', icon: Star, keys: ['⌘', '⇧', 'F'], group: 'command' },
+  { title: 'Reset Ranking', icon: RotateCcw, keys: ['⌘', '⌥', 'R'], group: 'command' },
+  { title: 'Manage Extensions', icon: Settings, keys: ['⌘', '⇧', ','], group: 'extension' },
 ]
 
 type SearchActionPanelProps = {
@@ -24,21 +24,27 @@ export function SearchActionPanel({ title, open, onOpenChange }: SearchActionPan
   const inputRef = useRef<HTMLInputElement>(null)
   const rowRefs = useRef<(HTMLButtonElement | null)[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
+  const [query, setQuery] = useState('')
+  const normalizedQuery = query.trim().toLowerCase()
+  const matches = actions.filter((action) => action.title.toLowerCase().includes(normalizedQuery))
+  const hasCommandActions = matches.some((action) => action.group === 'command')
+  const hasExtensionActions = matches.some((action) => action.group === 'extension')
 
   function navigateActions(event: KeyboardEvent) {
-    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
+    if (event.isComposing || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')) return
     event.preventDefault()
+    if (matches.length === 0) return
     const fromInput = event.target === inputRef.current
     const nextIndex = fromInput
-      ? (event.key === 'ArrowDown' ? 0 : actions.length - 1)
-      : (activeIndex + (event.key === 'ArrowDown' ? 1 : -1) + actions.length) % actions.length
+      ? (event.key === 'ArrowDown' ? 0 : matches.length - 1)
+      : (activeIndex + (event.key === 'ArrowDown' ? 1 : -1) + matches.length) % matches.length
     setActiveIndex(nextIndex)
     rowRefs.current[nextIndex]?.focus()
   }
 
-  function renderRows(start: number, end: number) {
-    return actions.slice(start, end).map((action, offset) => {
-      const index = start + offset
+  function renderRows(group: string) {
+    return matches.map((action, index) => {
+      if (action.group !== group) return null
       const Icon = action.icon
       return (
         <Item key={action.title} role="listitem" className="search-action-item">
@@ -68,14 +74,19 @@ export function SearchActionPanel({ title, open, onOpenChange }: SearchActionPan
         Actions
         <KbdGroup aria-hidden="true"><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
       </PopoverTrigger>
-      <PopoverContent className="search-action-panel" align="end" side="top" sideOffset={16} initialFocus={inputRef} finalFocus={triggerRef} onKeyDown={navigateActions}>
+      <PopoverContent className="search-action-panel" data-filtering={normalizedQuery.length > 0} align="end" side="top" sideOffset={16} initialFocus={inputRef} finalFocus={triggerRef} onKeyDown={navigateActions}>
         <div className="search-action-scroll">
           <PopoverTitle className="search-action-heading">{title}</PopoverTitle>
-          <ItemGroup className="search-action-group">{renderRows(0, 3)}</ItemGroup>
-          <h3 className="search-action-heading search-action-section">Configure Extension</h3>
-          <ItemGroup className="search-action-group">{renderRows(3, 4)}</ItemGroup>
+          <p role="status" className={matches.length ? 'sr-only' : 'search-action-empty'}>
+            {matches.length ? `${matches.length} ${matches.length === 1 ? 'action' : 'actions'} found` : 'No actions found'}
+          </p>
+          {hasCommandActions && <ItemGroup className="search-action-group">{renderRows('command')}</ItemGroup>}
+          {hasExtensionActions && <>
+            <h3 className="search-action-heading search-action-section">Configure Extension</h3>
+            <ItemGroup className="search-action-group">{renderRows('extension')}</ItemGroup>
+          </>}
         </div>
-        <Input ref={inputRef} className="search-action-input" aria-label="Search for action" placeholder="Search for action…" autoComplete="off" spellCheck={false} />
+        <Input ref={inputRef} className="search-action-input" aria-label="Search for action" placeholder="Search for action…" value={query} onChange={(event) => { setQuery(event.target.value); setActiveIndex(0) }} autoComplete="off" spellCheck={false} />
       </PopoverContent>
     </Popover>
   )

@@ -88,13 +88,14 @@ Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog
 - **Make selection clear.** A subtle full-row highlight, click selection, and native Tab + Space/Enter support. Selection stays local and resets on refresh. The simplified SVG icons come from the Paper study.
 - **Anchor the action hints.** A 40px footer beneath the scrolling results, with the reference’s simplified mark, “Open Command” ↵, and “Actions” ⌘ K. It grows to 48px on mobile. Actions opens the panel; Open Command remains disabled until execution is implemented.
 - **Keep actions contextual.** A 360×280px panel above Actions, with the selected result title, grouped action rows, aligned keycaps, and search at the bottom. Click Actions or press ⌘ K to toggle; Esc restores trigger focus and an outside click dismisses. Arrow keys navigate actions. Mobile narrows the panel and uses 48px rows.
+- **Filter without losing context.** Match action names as you type, ignoring case and surrounding spaces. Hide empty groups, select the first match, and keep arrows within the matches. Contract the panel around results; show “No actions found” when empty, with a live result count for assistive technology. Clearing restores all four actions.
 - **Keep input focus transparent.** Shared Input and Textarea focus outlines/rings are transparent by default, ready for individual overrides. Result buttons retain visible neutral focus; validation keeps its error styling.
 
-| Before: tinted shell | After: backdrop glass and Action Panel |
+| Before: query without filtering | After: matching actions |
 | --- | --- |
-| ![Before the Action Panel and material correction](notes/images/36-before-action-panel.png) | ![Store selected with Action Panel open](notes/images/36-action-panel.png) |
+| ![Query before filtering](notes/images/37-before-action-filtering.png) | ![Filtered Action Panel](notes/images/37-action-filtering.png) |
 
-[Mobile Action Panel](notes/images/36-action-panel-mobile.png) · [Shell with the panel closed](notes/images/36-search-backdrop.png). Filtering and command execution remain for later. Both search fields accept text without filtering; action rows only change selection. The action shortcuts besides ⌘ K are visual hints. The four actions follow Paper’s Store fixture; the panel heading follows the selected result.
+[Mobile filtering](notes/images/37-action-filtering-mobile.png) · [Empty state](notes/images/37-action-empty.png). Main result search and command execution remain for later; action rows only change selection. The action shortcuts besides ⌘ K are visual hints. The four actions follow Paper’s Store fixture; the panel heading follows the selected result. Paper’s compact filtered state was a behavior reconstruction with inferred dimensions; case matching, empty feedback, and keyboard handling are implementation choices.
 
 Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. A uniform dark backdrop offers no distinct detail to blur, so the glass remains subtle; no artificial wallpaper or coloured reflection is added. This is a visual study, not a desktop launcher or an exact native-material replica.
 

@@ -176,6 +176,8 @@
   animation: none;
 }
 .search-action-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.search-action-panel[data-slot="popover-content"][data-filtering="true"] { height: auto; }
+.search-action-empty { padding: 24px 16px; color: var(--muted-foreground); font-size: 14px; line-height: 20px; text-align: center; }
 .search-action-heading {
   display: flex;
   align-items: center;
