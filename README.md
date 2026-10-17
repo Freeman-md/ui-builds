@@ -6,10 +6,10 @@ Share a specific study:
 
 | Documentation | Direct link |
 | --- | --- |
-| UI builds showcase | [Repository overview](https://github.com/Freeman-md/triage-inbox#readme) |
-| Triage inbox | [Triage design, motion, and keyboard decisions](https://github.com/Freeman-md/triage-inbox#triage-inbox) |
-| Booking flow | [Booking design and animation decisions](https://github.com/Freeman-md/triage-inbox#booking-flow) |
-| Search and actions | [Search design decisions](https://github.com/Freeman-md/triage-inbox#search-and-actions) |
+| UI builds showcase | [Repository overview](https://github.com/Freeman-md/ui-builds#readme) |
+| Triage inbox | [Triage design, motion, and keyboard decisions](https://github.com/Freeman-md/ui-builds#triage-inbox) |
+| Booking flow | [Booking design and animation decisions](https://github.com/Freeman-md/ui-builds#booking-flow) |
+| Search and actions | [Search design decisions](https://github.com/Freeman-md/ui-builds#search-and-actions) |
 
 ## Contents
 
