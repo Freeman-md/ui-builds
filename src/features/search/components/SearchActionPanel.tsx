@@ -1,4 +1,5 @@
-import { useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
+import { uiMotion } from '@/lib/motion'
 import { LayoutGroup, motion } from 'motion/react'
 import { SearchRowHighlight } from './SearchRowHighlight'
 import { FileText, RotateCcw, Settings, Star } from 'lucide-react'
@@ -7,6 +8,12 @@ import { Input } from '@/components/ui/Input'
 import { Item, ItemGroup } from '@/components/ui/Item'
 import { Kbd, KbdGroup } from '@/components/ui/Kbd'
 import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from '@/components/ui/Popover'
+
+const panelMotionStyle = {
+  '--action-enter-duration': `${uiMotion.enterDuration}s`,
+  '--action-exit-duration': `${uiMotion.enterDuration}s`,
+  '--action-ease': `cubic-bezier(${uiMotion.easeOut.join(',')})`,
+} as CSSProperties
 
 const actions = [
   { title: 'Open Command', icon: FileText, keys: ['↵'], group: 'command' },
@@ -85,7 +92,7 @@ export function SearchActionPanel({ title, disabled = false, open, onOpenChange 
         Actions
         <KbdGroup aria-hidden="true"><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
       </PopoverTrigger>
-      <PopoverContent className="search-action-panel" data-filtering={normalizedQuery.length > 0} align="end" side="top" sideOffset={16} initialFocus={inputRef} finalFocus={triggerRef} onKeyDown={navigateActions}>
+      <PopoverContent style={panelMotionStyle} inert={!open} className="search-action-panel" data-filtering={normalizedQuery.length > 0} align="end" side="top" sideOffset={16} initialFocus={inputRef} finalFocus={triggerRef} onKeyDown={navigateActions}>
         <motion.div layoutScroll className="search-action-scroll" onPointerLeave={() => setHoveredTitle(null)}>
           <LayoutGroup id={layoutId}>
             <PopoverTitle className="search-action-heading">{title}</PopoverTitle>
