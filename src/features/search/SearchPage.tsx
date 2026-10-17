@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { SearchResults } from './components/SearchResults'
+import { SearchFooter } from './components/SearchFooter'
 import './search.css'
 
 export default function SearchPage() {
@@ -17,6 +18,7 @@ export default function SearchPage() {
         spellCheck={false}
       />
       <SearchResults />
+      <SearchFooter />
     </Card>
   )
 }

@@ -86,13 +86,14 @@ Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog
 - **Keep the shell quiet.** A centered 750×480px container, 12px corners, and a 64px input row. The app’s muted tint, background blur, and faint light edge create a frosted surface while keeping text opaque.
 - **Follow the reference’s density.** Suggestions and Commands groups, 20px icons, inline source labels, and aligned trailing result types. Rows are 40px on desktop and 48px on mobile; longer lists scroll inside the shell.
 - **Make selection clear.** A subtle full-row highlight, click selection, and native Tab + Space/Enter support. Selection stays local and resets on refresh. The simplified SVG icons come from the Paper study.
+- **Anchor the action hints.** A 40px footer beneath the scrolling results, with the reference’s simplified mark, “Open Command” ↵, and “Actions” ⌘ K. It grows to 48px on mobile. Buttons remain disabled until execution and the Action Panel are implemented.
 - **Keep input focus transparent.** Shared Input and Textarea focus outlines/rings are transparent by default, ready for individual overrides. Result buttons retain visible neutral focus; validation keeps its error styling.
 
-| Before: blank shell | After: grouped results |
+| Before: results only | After: action and shortcut bar |
 | --- | --- |
-| ![Blank search shell](notes/images/34-before-search-results.png) | ![Grouped results with Store selected](notes/images/34-search-results.png) |
+| ![Results before the footer](notes/images/35-before-search-footer.png) | ![Store selected with the action footer](notes/images/35-search-footer.png) |
 
-[Mobile results](notes/images/34-search-results-mobile.png). Filtering, arrow-key navigation, footer actions, and the Action Panel remain for later. Typing currently leaves all eight fixture results visible; selecting a result does not launch anything.
+[Mobile results and footer](notes/images/35-search-footer-mobile.png). Filtering, arrow-key navigation, command execution, and the Action Panel remain for later. The footer’s shortcut labels are visual hints only in this slice. Typing currently leaves all eight fixture results visible; selecting a result does not launch anything.
 
 Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. Blur is subtle against the showcase’s plain backdrop. This is a visual study, not a desktop launcher or an exact native-material replica.
 
@@ -104,7 +105,7 @@ React, TypeScript, Vite, Tailwind CSS, shadcn/ui with Base UI, Motion, and Lucid
 | --- | --- |
 | Triage | Card, Tabs, Dialog, Popover, Item/ItemGroup, Toggle, Tooltip, Button, Badge, Input, Label |
 | Booking | Button, Input, Label, Textarea; custom availability, progress, and confirmation layouts |
-| Search | Card, Input, Item/ItemGroup, ItemMedia, ItemContent, ItemActions |
+| Search | Card, Input, Item/ItemGroup, ItemMedia, ItemContent, ItemActions, Button, Kbd/KbdGroup |
 
 Feature hooks own state and interactions; components handle presentation. Triage and Booking share [motion easing/timings](src/lib/motion.ts), while their choreography stays local. Search currently uses native input behavior without added motion.
 
