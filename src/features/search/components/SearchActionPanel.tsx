@@ -15,11 +15,12 @@ const actions = [
 
 type SearchActionPanelProps = {
   title: string
+  disabled?: boolean
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-export function SearchActionPanel({ title, open, onOpenChange }: SearchActionPanelProps) {
+export function SearchActionPanel({ title, disabled = false, open, onOpenChange }: SearchActionPanelProps) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const rowRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -70,7 +71,7 @@ export function SearchActionPanel({ title, open, onOpenChange }: SearchActionPan
 
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger ref={triggerRef} render={<Button variant="ghost" size="sm" />} className="search-footer-action search-footer-actions" aria-label="Actions" aria-keyshortcuts="Meta+K">
+      <PopoverTrigger disabled={disabled} ref={triggerRef} render={<Button variant="ghost" size="sm" />} className="search-footer-action search-footer-actions" aria-label="Actions" aria-keyshortcuts="Meta+K">
         Actions
         <KbdGroup aria-hidden="true"><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
       </PopoverTrigger>

@@ -3,7 +3,7 @@ import { Kbd } from '@/components/ui/Kbd'
 import { SearchActionPanel } from './SearchActionPanel'
 import footerMark from '../assets/footer-mark.svg'
 
-export function SearchFooter({ title, actionsOpen, onActionsOpenChange }: { title: string; actionsOpen: boolean; onActionsOpenChange: (open: boolean) => void }) {
+export function SearchFooter({ title, actionsOpen, onActionsOpenChange }: { title: string | null; actionsOpen: boolean; onActionsOpenChange: (open: boolean) => void }) {
   return (
     <footer className="search-footer" aria-label="Search actions">
       <img className="search-footer-mark" src={footerMark} alt="" width={18} height={18} />
@@ -11,7 +11,7 @@ export function SearchFooter({ title, actionsOpen, onActionsOpenChange }: { titl
         Open Command <Kbd aria-label="Return">↵</Kbd>
       </Button>
       <span className="search-footer-divider" aria-hidden="true" />
-      <SearchActionPanel title={title} open={actionsOpen} onOpenChange={onActionsOpenChange} />
+      <SearchActionPanel key={title ?? 'no-selection'} title={title ?? 'Actions'} disabled={title === null} open={actionsOpen} onOpenChange={onActionsOpenChange} />
     </footer>
   )
 }

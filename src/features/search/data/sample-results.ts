@@ -15,7 +15,7 @@ export type SearchResult = {
   icon: string
 }
 
-type SearchResultGroup = { id: string; title: string; items: SearchResult[] }
+export type SearchResultGroup = { id: string; title: string; items: SearchResult[] }
 
 export const sampleResultGroups: SearchResultGroup[] = [
   {

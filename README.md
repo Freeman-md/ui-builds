@@ -85,17 +85,17 @@ Inspired by Raycast’s [July 2022 desktop refresh](https://www.raycast.com/blog
 
 - **Keep the shell quiet.** A centered 750×480px container, 12px corners, and a 64px input row. An 18% neutral tint and 24px backdrop blur let the actual page background show through; no opaque surface gradient. The light edge defines the shell while text stays opaque.
 - **Follow the reference’s density.** Suggestions and Commands groups, 20px icons, inline source labels, and aligned trailing result types. Rows are 40px on desktop and 48px on mobile; longer lists scroll inside the shell.
-- **Make selection clear.** A subtle full-row highlight, click selection, and native Tab + Space/Enter support. Selection stays local and resets on refresh. The simplified SVG icons come from the Paper study.
+- **Search without losing selection.** Match result titles and sources as you type, ignoring case and surrounding spaces. Hide empty groups; retain the selected match or select the first result. Arrow keys wrap through matches. Show “No results found” with Actions disabled when empty; clearing restores the list. Store is selected on a fresh visit. The simplified SVG icons come from the Paper study.
 - **Anchor the action hints.** A 40px footer beneath the scrolling results, with the reference’s simplified mark, “Open Command” ↵, and “Actions” ⌘ K. It grows to 48px on mobile. Actions opens the panel; Open Command remains disabled until execution is implemented.
-- **Keep actions contextual.** A 360×280px panel above Actions, with the selected result title, grouped action rows, aligned keycaps, and search at the bottom. Click Actions or press ⌘ K to toggle; Esc restores trigger focus and an outside click dismisses. Arrow keys navigate actions. Mobile narrows the panel and uses 48px rows.
+- **Keep actions contextual.** A 360×280px panel above Actions, with the selected result title, grouped action rows, aligned keycaps, and search at the bottom. Click Actions or press ⌘ K to toggle; Esc restores trigger focus and an outside click dismisses. Arrow keys navigate actions. Mobile narrows the panel and uses 48px rows. Changing result selection closes the panel and resets its action query, so actions never retain stale context.
 - **Filter without losing context.** Match action names as you type, ignoring case and surrounding spaces. Hide empty groups, select the first match, and keep arrows within the matches. Contract the panel around results; show “No actions found” when empty, with a live result count for assistive technology. Clearing restores all four actions.
 - **Keep input focus transparent.** Shared Input and Textarea focus outlines/rings are transparent by default, ready for individual overrides. Result buttons retain visible neutral focus; validation keeps its error styling.
 
-| Before: query without filtering | After: matching actions |
+| Before: main query without filtering | After: matching results |
 | --- | --- |
-| ![Query before filtering](notes/images/37-before-action-filtering.png) | ![Filtered Action Panel](notes/images/37-action-filtering.png) |
+| ![Main query before filtering](notes/images/38-before-main-filtering.png) | ![Filtered main results](notes/images/38-main-filtering.png) |
 
-[Mobile filtering](notes/images/37-action-filtering-mobile.png) · [Empty state](notes/images/37-action-empty.png). Main result search and command execution remain for later; action rows only change selection. The action shortcuts besides ⌘ K are visual hints. The four actions follow Paper’s Store fixture; the panel heading follows the selected result. Paper’s compact filtered state was a behavior reconstruction with inferred dimensions; case matching, empty feedback, and keyboard handling are implementation choices.
+[Mobile results](notes/images/38-main-filtering-mobile.png) · [No results](notes/images/38-main-empty.png) · [Selected-result actions](notes/images/38-selected-result-actions.png). Command execution remains for later; action rows only change selection. The action shortcuts besides ⌘ K are visual hints. The four actions follow Paper’s Store fixture; the panel heading follows the selected result. Paper’s compact filtered state was a behavior reconstruction with inferred dimensions; case matching, empty feedback, and keyboard handling are implementation choices.
 
 Glass falls back to an opaque surface without blur support or when reduced transparency/high contrast is requested. A uniform dark backdrop offers no distinct detail to blur, so the glass remains subtle; no artificial wallpaper or coloured reflection is added. This is a visual study, not a desktop launcher or an exact native-material replica.
 
@@ -125,7 +125,7 @@ npm run dev
 ```
 
 ```sh
-npm test        # Shortcuts, date boundaries, booking timing and cancellation
+npm test        # Search selection/filtering, shortcuts, and booking boundaries
 npm run build   # Type checking and production build
 npm run lint
 ```

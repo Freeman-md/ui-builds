@@ -1,20 +1,49 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { sampleResultGroups } from '../data/sample-results'
+import { filterResults } from '../filter-results'
+
+type SearchState = { query: string; selectedId: string | null; actionsOpen: boolean }
 
 export function useSearchWorkspace() {
-  const [selectedId, setSelectedId] = useState('store')
-  const [actionsOpen, setActionsOpen] = useState(false)
-  const selectedResult = sampleResultGroups.flatMap((group) => group.items).find((item) => item.id === selectedId)!
+  const [state, setState] = useState<SearchState>({ query: '', selectedId: 'store', actionsOpen: false })
+  const rowRefs = useRef(new Map<string, HTMLButtonElement>())
+  const matches = filterResults(sampleResultGroups, state.query, state.selectedId)
+
+  function setQuery(query: string) {
+    setState((previous) => {
+      const selectedId = filterResults(sampleResultGroups, query, previous.selectedId).selectedResult?.id ?? null
+      return { query, selectedId, actionsOpen: previous.actionsOpen && selectedId !== null && selectedId === previous.selectedId }
+    })
+  }
+
+  function selectResult(selectedId: string) {
+    setState((previous) => ({ ...previous, selectedId, actionsOpen: previous.actionsOpen && selectedId === previous.selectedId }))
+  }
+
+  function setActionsOpen(open: boolean) {
+    setState((previous) => ({ ...previous, actionsOpen: open && previous.selectedId !== null }))
+  }
+
+  function navigateResults(event: KeyboardEvent) {
+    if (event.nativeEvent.isComposing || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')) return
+    event.preventDefault()
+    if (!matches.items.length) return
+    const index = matches.items.findIndex((item) => item.id === state.selectedId)
+    const nextIndex = (index + (event.key === 'ArrowDown' ? 1 : -1) + matches.items.length) % matches.items.length
+    const nextId = matches.items[nextIndex].id
+    selectResult(nextId)
+    rowRefs.current.get(nextId)?.focus()
+  }
 
   useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
+    function onKeyDown(event: globalThis.KeyboardEvent) {
       if (event.defaultPrevented || event.isComposing || event.repeat || !event.metaKey || event.ctrlKey || event.altKey || event.shiftKey || event.key.toLowerCase() !== 'k') return
       event.preventDefault()
-      setActionsOpen((open) => !open)
+      setState((previous) => previous.selectedId === null ? previous : { ...previous, actionsOpen: !previous.actionsOpen })
     }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  return { selectedId, setSelectedId, selectedResult, actionsOpen, setActionsOpen }
+  return { ...state, ...matches, rowRefs, setQuery, selectResult, setActionsOpen, navigateResults }
 }

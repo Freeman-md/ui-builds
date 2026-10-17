@@ -234,3 +234,6 @@
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .search-action-panel[data-slot="popover-content"] { background: var(--muted); }
 }
+
+.search-results-empty { padding: 48px 16px; color: var(--muted-foreground); font-size: 14px; line-height: 20px; text-align: center; }
+.search-footer .search-footer-actions:disabled { opacity: 0.45; }

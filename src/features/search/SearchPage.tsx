@@ -18,9 +18,12 @@ export default function SearchPage() {
         placeholder="Search for apps and commands…"
         autoComplete="off"
         spellCheck={false}
+        value={workspace.query}
+        onChange={(event) => workspace.setQuery(event.target.value)}
+        onKeyDown={workspace.navigateResults}
       />
-      <SearchResults selectedId={workspace.selectedId} onSelect={workspace.setSelectedId} />
-      <SearchFooter title={workspace.selectedResult.title} actionsOpen={workspace.actionsOpen} onActionsOpenChange={workspace.setActionsOpen} />
+      <SearchResults groups={workspace.groups} selectedId={workspace.selectedId} onSelect={workspace.selectResult} rowRefs={workspace.rowRefs} onKeyDown={workspace.navigateResults} />
+      <SearchFooter title={workspace.selectedResult?.title ?? null} actionsOpen={workspace.actionsOpen} onActionsOpenChange={workspace.setActionsOpen} />
     </Card>
   )
 }
