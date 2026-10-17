@@ -1,6 +1,8 @@
 import { useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { uiMotion } from '@/lib/motion'
-import { LayoutGroup, motion } from 'motion/react'
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'motion/react'
+import { SearchFilterItem } from './SearchFilterItem'
+import { usePanelContentHeight } from '../hooks/use-panel-content-height'
 import { SearchRowHighlight } from './SearchRowHighlight'
 import { FileText, RotateCcw, Settings, Star } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
@@ -31,10 +33,12 @@ type SearchActionPanelProps = {
 
 export function SearchActionPanel({ title, disabled = false, open, onOpenChange }: SearchActionPanelProps) {
   const layoutId = useId()
+  const reducedMotion = useReducedMotion()
+  const { contentRef, height } = usePanelContentHeight()
   const [hoveredTitle, setHoveredTitle] = useState<string | null>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const rowRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const rowRefs = useRef(new Map<string, HTMLButtonElement>())
   const [activeIndex, setActiveIndex] = useState(0)
   const [query, setQuery] = useState('')
   const normalizedQuery = query.trim().toLowerCase()
@@ -54,7 +58,7 @@ export function SearchActionPanel({ title, disabled = false, open, onOpenChange 
       ? (event.key === 'ArrowDown' ? 0 : matches.length - 1)
       : (activeIndex + (event.key === 'ArrowDown' ? 1 : -1) + matches.length) % matches.length
     setActiveIndex(nextIndex)
-    rowRefs.current[nextIndex]?.focus()
+    rowRefs.current.get(matches[nextIndex].title)?.focus()
   }
 
   function renderRows(group: string) {
@@ -62,9 +66,10 @@ export function SearchActionPanel({ title, disabled = false, open, onOpenChange 
       if (action.group !== group) return null
       const Icon = action.icon
       return (
-        <Item key={action.title} role="listitem" className="search-action-item">
+        <SearchFilterItem key={action.title}>
+          <Item role="listitem" className="search-action-item">
           <button
-            ref={(node) => { rowRefs.current[index] = node }}
+            ref={(node) => { if (node) rowRefs.current.set(action.title, node); else rowRefs.current.delete(action.title) }}
             type="button"
             className="search-action-row"
             aria-pressed={activeIndex === index}
@@ -81,7 +86,8 @@ export function SearchActionPanel({ title, disabled = false, open, onOpenChange 
               {action.keys.map((key) => <Kbd key={key}>{key}</Kbd>)}
             </KbdGroup>
           </button>
-        </Item>
+          </Item>
+        </SearchFilterItem>
       )
     })
   }
@@ -92,19 +98,45 @@ export function SearchActionPanel({ title, disabled = false, open, onOpenChange 
         Actions
         <KbdGroup aria-hidden="true"><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
       </PopoverTrigger>
-      <PopoverContent style={panelMotionStyle} inert={!open} className="search-action-panel" data-filtering={normalizedQuery.length > 0} align="end" side="top" sideOffset={16} initialFocus={inputRef} finalFocus={triggerRef} onKeyDown={navigateActions}>
-        <motion.div layoutScroll className="search-action-scroll" onPointerLeave={() => setHoveredTitle(null)}>
-          <LayoutGroup id={layoutId}>
-            <PopoverTitle className="search-action-heading">{title}</PopoverTitle>
-            <p role="status" className={matches.length ? 'sr-only' : 'search-action-empty'}>
-              {matches.length ? `${matches.length} ${matches.length === 1 ? 'action' : 'actions'} found` : 'No actions found'}
-            </p>
-            {hasCommandActions && <ItemGroup className="search-action-group">{renderRows('command')}</ItemGroup>}
-            {hasExtensionActions && <>
-              <h3 className="search-action-heading search-action-section">Configure Extension</h3>
-              <ItemGroup className="search-action-group">{renderRows('extension')}</ItemGroup>
-            </>}
-          </LayoutGroup>
+      <PopoverContent style={panelMotionStyle} inert={!open} className="search-action-panel" align="end" side="top" sideOffset={16} initialFocus={inputRef} finalFocus={triggerRef} onKeyDown={navigateActions}>
+        <motion.div
+          className="search-action-size"
+          initial={false}
+          animate={{ height: height ?? 'auto' }}
+          transition={{ duration: reducedMotion ? 0 : uiMotion.enterDuration, delay: reducedMotion ? 0 : uiMotion.exitDuration, ease: uiMotion.easeOut }}
+        >
+          <motion.div layoutScroll className="search-action-scroll" onPointerLeave={() => setHoveredTitle(null)}>
+            <div ref={contentRef} className="search-action-measure">
+              <LayoutGroup id={layoutId}>
+                <PopoverTitle className="search-action-heading">{title}</PopoverTitle>
+                <p role="status" className="sr-only">
+                  {matches.length ? `${matches.length} ${matches.length === 1 ? 'action' : 'actions'} found` : 'No actions found'}
+                </p>
+                <AnimatePresence initial={false} mode="popLayout">
+                  {!matches.length && (
+                    <SearchFilterItem key="empty">
+                      <p className="search-action-empty" aria-hidden="true">No actions found</p>
+                    </SearchFilterItem>
+                  )}
+                  {hasCommandActions && (
+                    <SearchFilterItem key="commands">
+                      <ItemGroup className="search-action-group">
+                        <AnimatePresence initial={false} mode="popLayout" propagate>{renderRows('command')}</AnimatePresence>
+                      </ItemGroup>
+                    </SearchFilterItem>
+                  )}
+                  {hasExtensionActions && (
+                    <SearchFilterItem key="extension">
+                      <h3 className="search-action-heading search-action-section">Configure Extension</h3>
+                      <ItemGroup className="search-action-group">
+                        <AnimatePresence initial={false} mode="popLayout" propagate>{renderRows('extension')}</AnimatePresence>
+                      </ItemGroup>
+                    </SearchFilterItem>
+                  )}
+                </AnimatePresence>
+              </LayoutGroup>
+            </div>
+          </motion.div>
         </motion.div>
         <Input ref={inputRef} className="search-action-input" aria-label="Search for action" placeholder="Search for action…" value={query} onChange={(event) => { setQuery(event.target.value); setActiveIndex(0); setHoveredTitle(null) }} autoComplete="off" spellCheck={false} />
       </PopoverContent>

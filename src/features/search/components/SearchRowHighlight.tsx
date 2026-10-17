@@ -1,8 +1,10 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { motion, useIsPresent, useReducedMotion } from 'motion/react'
 import { uiMotion } from '@/lib/motion'
 
 export function SearchRowHighlight() {
+  const present = useIsPresent()
   const reducedMotion = useReducedMotion()
+  if (!present) return null
   return (
     <motion.span
       layoutId={reducedMotion ? undefined : 'row-highlight'}
